@@ -1,0 +1,9 @@
+package template
+
+modules = Main
+
+main = Main
+
+executable = template
+
+sourcedir = "src"
