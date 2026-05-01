@@ -1,0 +1,19 @@
+package idris2-mkdoc-md
+
+version = 0.1.0
+
+depends = idris2
+
+modules = Main,
+          Init,
+          Package,
+          Scanner,
+          Render.Markdown,
+          Render.Module,
+          Render.Index,
+          CLI
+
+main = Main
+executable = idris2-mkdoc-md
+
+sourcedir = "src"
