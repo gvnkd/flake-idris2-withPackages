@@ -1,0 +1,692 @@
+{
+  "algdata": [],
+  "algebra": [],
+  "ansi": [],
+  "apache-mime-types": [],
+  "array": [
+    "algebra",
+    "linear",
+    "ref1"
+  ],
+  "async": [
+    "array",
+    "containers",
+    "elin",
+    "quantifiers-extra"
+  ],
+  "async-dom": [
+    "async-js",
+    "barbies",
+    "dom",
+    "css",
+    "json-simple",
+    "monocle",
+    "streams"
+  ],
+  "async-epoll": [
+    "async-posix",
+    "linux"
+  ],
+  "async-js": [
+    "async",
+    "js"
+  ],
+  "async-posix": [
+    "async",
+    "posix",
+    "ansi"
+  ],
+  "async-spec": [
+    "async",
+    "pretty-show",
+    "prettier-ansi"
+  ],
+  "barbies": [
+    "elab-util",
+    "monocle"
+  ],
+  "best-alternative": [],
+  "bounded-doubles": [],
+  "bounded-doubles-hedgehog-generators": [
+    "hedgehog",
+    "bounded-doubles"
+  ],
+  "bytestring": [
+    "algebra",
+    "array",
+    "network"
+  ],
+  "chem": [
+    "elab-util",
+    "finite",
+    "ilex",
+    "indexed-graph",
+    "pretty-show",
+    "quantifiers-extra",
+    "refined"
+  ],
+  "chem-generators": [
+    "chem",
+    "hedgehog"
+  ],
+  "collection-utils": [
+    "best-alternative",
+    "dependent-vect",
+    "i-hate-parens",
+    "fin-lizzie"
+  ],
+  "collie": [
+    "contrib"
+  ],
+  "comonad": [],
+  "containers": [
+    "array",
+    "elab-util",
+    "hashable",
+    "ref1"
+  ],
+  "continuation-monad": [],
+  "control-flow": [
+    "theory"
+  ],
+  "control-spec": [
+    "contrib"
+  ],
+  "coop": [
+    "mtl-tuple-impls",
+    "tailrec",
+    "time-for-sleep"
+  ],
+  "cozippable": [],
+  "cptr": [
+    "elin",
+    "array"
+  ],
+  "crypt": [],
+  "css": [
+    "literal"
+  ],
+  "cyby-css": [
+    "async-dom",
+    "chem",
+    "css"
+  ],
+  "cyby-draw": [
+    "array",
+    "async-dom",
+    "chem",
+    "containers",
+    "cyby-css",
+    "pretty-show",
+    "svg"
+  ],
+  "decord": [],
+  "dependent-map": [
+    "dtypes",
+    "hedgehog"
+  ],
+  "dependent-vect": [
+    "fin-lizzie"
+  ],
+  "deptycheck": [
+    "ansi",
+    "best-alternative",
+    "dependent-vect",
+    "elab-util-extra",
+    "i-hate-parens",
+    "if-unsolved-implicit",
+    "mtl-tuple-impls",
+    "positive-nat",
+    "random-pure",
+    "typelevel-emptiness-collections"
+  ],
+  "dinwiddy": [
+    "contrib"
+  ],
+  "distribution": [
+    "contrib"
+  ],
+  "dom": [
+    "js",
+    "elab-util"
+  ],
+  "dom-mvc": [
+    "dom",
+    "containers",
+    "json-simple",
+    "refined",
+    "tailrec",
+    "css"
+  ],
+  "dom-mvc-extra": [
+    "dom-mvc",
+    "monocle",
+    "barbies",
+    "filepath"
+  ],
+  "dot-gv": [
+    "idris2"
+  ],
+  "dtypes": [],
+  "eff": [
+    "tailrec",
+    "freer"
+  ],
+  "effect": [],
+  "elab-pretty": [
+    "elab-util",
+    "prettier"
+  ],
+  "elab-util": [],
+  "elab-util-extra": [
+    "collection-utils",
+    "containers",
+    "cozippable",
+    "elab-pretty",
+    "elab-util",
+    "fin-lizzie",
+    "i-hate-parens",
+    "mk",
+    "mtl-tuple-impls"
+  ],
+  "elin": [
+    "quantifiers-extra",
+    "ref1"
+  ],
+  "epoll": [
+    "elab-util",
+    "array",
+    "finite"
+  ],
+  "evince": [
+    "contrib",
+    "pretty-show"
+  ],
+  "evince-hedgehog": [
+    "evince",
+    "hedgehog"
+  ],
+  "extrafun": [
+    "contrib"
+  ],
+  "filepath": [],
+  "fin-lizzie": [],
+  "finite": [
+    "elab-util"
+  ],
+  "fix-whitespace": [
+    "filepath",
+    "getopts",
+    "elab-util",
+    "elab-pretty"
+  ],
+  "fixed": [],
+  "free": [],
+  "freer": [
+    "tailrec"
+  ],
+  "fs-utils": [],
+  "getopts": [],
+  "golden-runner-helper": [
+    "test"
+  ],
+  "graph": [
+    "algebra"
+  ],
+  "hashable": [],
+  "hashable-derive": [
+    "elab-util",
+    "mk",
+    "hashable"
+  ],
+  "hashmap": [
+    "hashable"
+  ],
+  "hedgehog": [
+    "ansi",
+    "elab-pretty",
+    "elab-util",
+    "getopts",
+    "prettier-ansi",
+    "pretty-show",
+    "random-pure",
+    "sop",
+    "summary-stat"
+  ],
+  "http": [
+    "base64",
+    "contrib",
+    "network",
+    "sop",
+    "elab-util",
+    "tls"
+  ],
+  "http-client-api": [
+    "http-types",
+    "async-js",
+    "async-dom",
+    "dom"
+  ],
+  "http-server-api": [
+    "http-types",
+    "streams-posix"
+  ],
+  "http-types": [
+    "ilex",
+    "json-simple"
+  ],
+  "i-hate-parens": [
+    "if-unsolved-implicit"
+  ],
+  "idrall": [
+    "contrib"
+  ],
+  "idris2-go": [
+    "idris2"
+  ],
+  "idris2-go-lib": [],
+  "idris2-lsp": [
+    "idris2",
+    "contrib",
+    "lsp-lib"
+  ],
+  "idrisGL": [],
+  "if-unsolved-implicit": [],
+  "ilex": [
+    "elab-util",
+    "algebra",
+    "array",
+    "bytestring",
+    "ilex-core",
+    "refined"
+  ],
+  "ilex-core": [
+    "elab-util",
+    "bytestring"
+  ],
+  "ilex-debug": [
+    "ilex",
+    "elab-pretty"
+  ],
+  "ilex-fasta": [
+    "async-epoll",
+    "ilex",
+    "ilex-streams",
+    "streams-posix"
+  ],
+  "ilex-json": [
+    "ilex"
+  ],
+  "ilex-streams": [
+    "ilex",
+    "streams",
+    "elin"
+  ],
+  "ilex-toml": [
+    "ilex",
+    "refined"
+  ],
+  "indexed": [],
+  "indexed-graph": [
+    "array",
+    "containers"
+  ],
+  "js": [
+    "elab-util",
+    "quantifiers-extra"
+  ],
+  "json": [
+    "parser",
+    "elab-util",
+    "ilex-json"
+  ],
+  "json-simple": [
+    "elab-util",
+    "ilex-json"
+  ],
+  "just-a-monad": [
+    "contrib"
+  ],
+  "katla": [
+    "idris2",
+    "contrib",
+    "collie",
+    "idrall"
+  ],
+  "katla-pandoc": [
+    "contrib"
+  ],
+  "lens": [
+    "profunctors",
+    "elab-util"
+  ],
+  "linux": [
+    "posix"
+  ],
+  "literal": [
+    "elab-util",
+    "refined"
+  ],
+  "log-domain": [],
+  "log4types": [
+    "contrib",
+    "log4types-core"
+  ],
+  "log4types-core": [
+    "contrib"
+  ],
+  "log4types-json": [
+    "contrib",
+    "log4types-core"
+  ],
+  "lsp-lib": [
+    "contrib"
+  ],
+  "mk": [],
+  "monad-bayes": [
+    "contrib",
+    "free",
+    "distribution",
+    "log-domain"
+  ],
+  "monocle": [
+    "elab-util",
+    "quantifiers-extra"
+  ],
+  "mtl-tuple-impls": [],
+  "multiplate": [],
+  "ncurses-idris": [
+    "contrib",
+    "indexed"
+  ],
+  "nested": [],
+  "node": [],
+  "numidr": [],
+  "okasaki-pfds": [],
+  "pack": [
+    "elab-util",
+    "filepath",
+    "getopts",
+    "idris2",
+    "ilex-toml"
+  ],
+  "pack-admin": [
+    "elab-util",
+    "filepath",
+    "getopts",
+    "idris2",
+    "ilex-toml"
+  ],
+  "pact-api": [
+    "json",
+    "pact-wai",
+    "apache-mime-types"
+  ],
+  "pact-client": [
+    "pact-api",
+    "http"
+  ],
+  "pact-server": [
+    "pact-wai",
+    "pact-api"
+  ],
+  "pact-todomvc": [
+    "streams-posix",
+    "async-epoll",
+    "json",
+    "pact-api",
+    "pact-wai",
+    "pact-server",
+    "pact-client"
+  ],
+  "pact-wai": [],
+  "park_bench": [],
+  "parser": [
+    "elab-util",
+    "bytestring",
+    "ilex-core"
+  ],
+  "parser-json": [
+    "parser"
+  ],
+  "parser-show": [
+    "parser",
+    "prettier"
+  ],
+  "parser-toml": [
+    "parser",
+    "refined"
+  ],
+  "parser-tsv": [
+    "parser",
+    "elab-util"
+  ],
+  "parser-webidl": [
+    "parser",
+    "refined",
+    "sop"
+  ],
+  "pg-idris": [
+    "indexed",
+    "parser-json"
+  ],
+  "pipelines": [
+    "contrib"
+  ],
+  "positive-nat": [
+    "typelevel-emptiness-collections"
+  ],
+  "posix": [
+    "bytestring",
+    "cptr",
+    "elab-util",
+    "elin",
+    "finite"
+  ],
+  "prettier": [],
+  "prettier-ansi": [
+    "ansi",
+    "prettier"
+  ],
+  "pretty-show": [
+    "elab-pretty",
+    "elab-util",
+    "parser-show"
+  ],
+  "prim": [],
+  "profiler": [
+    "refined"
+  ],
+  "profunctors": [],
+  "promise": [],
+  "quantifiers-extra": [],
+  "qutescript": [
+    "rio",
+    "elab-util",
+    "filepath"
+  ],
+  "random-pure": [
+    "prettier"
+  ],
+  "ratio": [],
+  "records": [],
+  "ref1": [
+    "linear"
+  ],
+  "refined": [
+    "elab-util",
+    "algebra"
+  ],
+  "refined-json": [
+    "refined",
+    "json-simple"
+  ],
+  "refined-tsv": [
+    "refined",
+    "parser-tsv"
+  ],
+  "regex": [
+    "best-alternative",
+    "collection-utils",
+    "elab-util",
+    "i-hate-parens"
+  ],
+  "rhone": [
+    "quantifiers-extra"
+  ],
+  "rhone-js": [
+    "dom",
+    "rhone",
+    "refined",
+    "tailrec"
+  ],
+  "rtlsdr": [],
+  "scgi": [
+    "ansi",
+    "async-epoll",
+    "http-server-api"
+  ],
+  "simple-tests": [
+    "contrib"
+  ],
+  "sop": [
+    "elab-util"
+  ],
+  "sqlite3": [
+    "elab-util",
+    "bytestring",
+    "quantifiers-extra"
+  ],
+  "sqlite3-streams": [
+    "sqlite3",
+    "streams"
+  ],
+  "stellar-api": [
+    "algdata",
+    "contrib",
+    "fs-utils"
+  ],
+  "stellar-http": [
+    "stellar-api",
+    "tyttp",
+    "node",
+    "tyttp-adapter-node",
+    "continuation-monad",
+    "json-simple",
+    "fs-utils"
+  ],
+  "stellar-sql": [
+    "sqlite3",
+    "sqlite3-rio",
+    "algdata",
+    "stellar-api",
+    "contrib",
+    "json"
+  ],
+  "streams": [
+    "async",
+    "bytestring",
+    "elin"
+  ],
+  "streams-posix": [
+    "async-posix",
+    "filepath",
+    "streams"
+  ],
+  "string-builder": [],
+  "stringsearch-algorithms": [
+    "array",
+    "bytestring",
+    "ref1"
+  ],
+  "summary-stat": [
+    "bounded-doubles",
+    "weaker-traversals"
+  ],
+  "svg": [
+    "elab-util",
+    "refined"
+  ],
+  "swirl": [
+    "if-unsolved-implicit",
+    "tailrec"
+  ],
+  "systemd": [
+    "elin",
+    "posix"
+  ],
+  "tailrec": [],
+  "telescope": [],
+  "tensortype": [
+    "contrib",
+    "elab-util",
+    "hashmap",
+    "finite"
+  ],
+  "tester": [
+    "contrib"
+  ],
+  "theory": [],
+  "time-for-sleep": [],
+  "timeit": [],
+  "tls": [
+    "contrib",
+    "network",
+    "sop",
+    "elab-util"
+  ],
+  "toml": [
+    "contrib"
+  ],
+  "type-aligned": [
+    "linear"
+  ],
+  "typelevel-emptiness-collections": [
+    "if-unsolved-implicit"
+  ],
+  "tyre": [
+    "contrib"
+  ],
+  "tyttp": [
+    "apache-mime-types",
+    "promise"
+  ],
+  "tyttp-adapter-node": [
+    "apache-mime-types",
+    "node",
+    "promise",
+    "tyttp"
+  ],
+  "tyttp-json": [
+    "tyttp",
+    "promise",
+    "json",
+    "sop",
+    "elab-util",
+    "apache-mime-types",
+    "node"
+  ],
+  "uniplate": [],
+  "url": [
+    "contrib"
+  ],
+  "uv": [
+    "uv-data",
+    "elab-util",
+    "bytestring",
+    "quantifiers-extra",
+    "containers"
+  ],
+  "uv-data": [
+    "elab-util"
+  ],
+  "weaker-traversals": [],
+  "webidl": [
+    "parser-webidl",
+    "prettier",
+    "getopts"
+  ],
+  "xml": [
+    "contrib"
+  ]
+}

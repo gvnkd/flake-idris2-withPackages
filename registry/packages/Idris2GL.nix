@@ -1,4 +1,4 @@
-# IdrisGL — SDL2 graphics library
+# Auto-generated from idris2-pack-db HEAD.toml
 # Source: https://github.com/ECburx/Idris2GL
 # External deps: SDL2, SDL2_image, SDL2_ttf, SDL2_gfx, SDL2_mixer
 
@@ -11,8 +11,9 @@ buildIdrisWithDocs {
     owner = "ECburx";
     repo = "Idris2GL";
     rev = "main";
-    hash = "sha256-N5xrWhDBNJMb7jOjuz5qaqqYgGPYn21I0ERtuZpc3Wo=";
+    hash = "sha256-N5xrWhDBNJMb7jOjuz5qaqqYgGPYn21I0ERtuZpc3Wo=";  # hash-updated: 2026-05-02 03:09:02
   };
+  deps = [ ];
   cDeps = [ pkgs.SDL2 pkgs.SDL2_image pkgs.SDL2_ttf pkgs.SDL2_gfx pkgs.SDL2_mixer ];
   nativeBuildInputs = [ pkgs.gnumake pkgs.pkg-config pkgs.dos2unix ];
   NIX_CFLAGS_COMPILE = [

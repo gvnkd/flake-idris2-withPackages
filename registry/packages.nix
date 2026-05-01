@@ -23,7 +23,7 @@ let
         in
           # A file can return either a single package or an attrset of packages
           if builtins.isAttrs result && result ? libPkg
-            then { ${name} = result; }
+            then { ${result.pname or name} = result; }
             else result;
       
       allPackages = builtins.foldl' (acc: file: acc // (importPackageFile file)) {} nixFiles;

@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Update source hashes for all packages in the registry
-# Usage: ./scripts/update-hashes.sh [package-name]
+# Usage: ./scripts/update-hashes.sh [package-name|all]
+# Packages with valid hashes are skipped if updated within the last 2 hours (TTL=7200s)
 
 set -euo pipefail
 
 REGISTRY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PACKAGES_DIR="${REGISTRY_DIR}/packages"
+TTL_SECONDS=7200  # 2 hours
 
 update_hash() {
     local file="$1"
@@ -14,64 +16,107 @@ update_hash() {
     
     echo "Processing: $pkg_name"
     
-    # Extract URL and type from the package file
-    local url
-    url=$(grep -oP 'url = "\K[^"]+' "$file" | head -1)
-    
-    if [ -z "$url" ]; then
-        echo "  ⚠ No URL found, skipping"
+    # Check if it's builtins.fetchGit (no hash needed)
+    if grep -q 'builtins.fetchGit' "$file"; then
+        echo "  ℹ builtins.fetchGit (no hash needed), skipping"
         return 0
     fi
     
-    # Determine fetcher type and compute hash
-    local new_hash
+    # Check if hash is already valid (not AAAA placeholder)
+    local current_hash
+    current_hash=$(sed -n 's/.*hash = "\([^"]*\)".*/\1/p' "$file" | head -1)
     
-    if [[ "$url" == *github.com* ]]; then
+    if [ -n "$current_hash" ] && [[ "$current_hash" != *"AAAA"* ]]; then
+        # Hash looks valid, check TTL
+        local last_update
+        last_update=$(sed -n 's/.*# hash-updated: \([0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\} [0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\}\).*/\1/p' "$file" | head -1)
+        
+        if [ -n "$last_update" ]; then
+            local last_epoch now_epoch diff
+            last_epoch=$(date -d "$last_update" +%s 2>/dev/null || echo 0)
+            now_epoch=$(date +%s)
+            diff=$((now_epoch - last_epoch))
+            
+            if [ "$diff" -lt "$TTL_SECONDS" ]; then
+                local mins=$((diff / 60))
+                echo "  ℹ Hash valid, updated recently (${mins}m ago), skipping"
+                return 0
+            fi
+        fi
+    fi
+    
+    # Check if it's fetchFromGitHub
+    if grep -q 'fetchFromGitHub' "$file"; then
         local owner repo rev
-        owner=$(echo "$url" | sed -n 's|.*/\([^/]*\)/\([^/]*\)$|\1|p')
-        repo=$(echo "$url" | sed -n 's|.*/\([^/]*\)/\([^/]*\)$|\2|p')
-        rev=$(grep -oP 'rev = "\K[^"]+' "$file" | head -1)
+        owner=$(sed -n 's/.*owner = "\([^"]*\)".*/\1/p' "$file" | head -1)
+        repo=$(sed -n 's/.*repo = "\([^"]*\)".*/\1/p' "$file" | head -1)
+        rev=$(sed -n 's/.*rev = "\([^"]*\)".*/\1/p' "$file" | head -1)
+        
+        if [ -z "$owner" ] || [ -z "$repo" ] || [ -z "$rev" ]; then
+            echo "  ⚠ Missing owner/repo/rev in fetchFromGitHub, skipping"
+            return 0
+        fi
         
         echo "  Fetching: github:$owner/$repo@$rev"
-        new_hash=$(nix-prefetch-from-github --owner "$owner" --repo "$repo" --rev "$rev" 2>/dev/null || \
-                   nix-prefetch-url --unpack "https://github.com/$owner/$repo/archive/$rev.tar.gz" 2>/dev/null || \
-                   echo "")
-    elif [[ "$url" == *gitlab.com* ]]; then
-        local path rev
-        path=$(echo "$url" | sed 's|https://gitlab.com/||')
-        rev=$(grep -oP 'rev = "\K[^"]+' "$file" | head -1)
+        local new_hash
+        new_hash=$(nix-prefetch-url --unpack "https://github.com/$owner/$repo/archive/$rev.tar.gz" 2>/dev/null || echo "")
         
-        echo "  Fetching: gitlab:$path@$rev"
-        new_hash=$(nix-prefetch-git --url "https://gitlab.com/$path" --rev "$rev" 2>/dev/null | grep -oP '"hash": "\K[^"]+' || \
-                   nix-prefetch-url --unpack "https://gitlab.com/$path/-/archive/$rev/$rev.tar.gz" 2>/dev/null || \
-                   echo "")
-    elif [[ "$url" == *git.sr.ht* ]]; then
-        local rev
-        rev=$(grep -oP 'rev = "\K[^"]+' "$file" | head -1)
+        if [ -z "$new_hash" ]; then
+            echo "  ✗ Failed to fetch hash"
+            return 1
+        fi
         
-        echo "  Fetching: $url@$rev"
-        new_hash=$(nix-prefetch-git --url "$url" --rev "$rev" 2>/dev/null | grep -oP '"hash": "\K[^"]+' || \
-                   nix-prefetch-url --unpack "$url/archive/$rev.tar.gz" 2>/dev/null || \
-                   echo "")
-    else
-        echo "  ⚠ Unknown URL type: $url"
+        # Convert to SRI format
+        new_hash=$(nix hash to-sri --type sha256 "$new_hash" 2>/dev/null || echo "$new_hash")
+        
+        local timestamp
+        timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+        sed -i "s|^\(\s*\)hash = \"[^\"]*\".*|\1hash = \"$new_hash\";  # hash-updated: $timestamp|" "$file"
+        echo "  ✓ Updated hash: $new_hash"
         return 0
     fi
     
-    if [ -z "$new_hash" ]; then
-        echo "  ✗ Failed to fetch hash"
-        return 1
-    fi
-    
-    # Convert to SRI format if needed
-    if [[ ! "$new_hash" == sha256-* ]]; then
+    # Check if it's fetchFromGitLab
+    if grep -q 'fetchFromGitLab' "$file"; then
+        local owner repo rev
+        owner=$(sed -n 's/.*owner = "\([^"]*\)".*/\1/p' "$file" | head -1)
+        repo=$(sed -n 's/.*repo = "\([^"]*\)".*/\1/p' "$file" | head -1)
+        rev=$(sed -n 's/.*rev = "\([^"]*\)".*/\1/p' "$file" | head -1)
+        
+        if [ -z "$owner" ] || [ -z "$repo" ] || [ -z "$rev" ]; then
+            echo "  ⚠ Missing owner/repo/rev in fetchFromGitLab, skipping"
+            return 0
+        fi
+        
+        echo "  Fetching: gitlab:$owner/$repo@$rev"
+        local new_hash
+        new_hash=$(nix-prefetch-url --unpack "https://gitlab.com/$owner/$repo/-/archive/$rev/$rev.tar.gz" 2>/dev/null || echo "")
+        
+        if [ -z "$new_hash" ]; then
+            echo "  ✗ Failed to fetch hash"
+            return 1
+        fi
+        
         new_hash=$(nix hash to-sri --type sha256 "$new_hash" 2>/dev/null || echo "$new_hash")
+        
+        local timestamp
+        timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+        sed -i "s|^\(\s*\)hash = \"[^\"]*\".*|\1hash = \"$new_hash\";  # hash-updated: $timestamp|" "$file"
+        echo "  ✓ Updated hash: $new_hash"
+        return 0
     fi
     
-    # Update the hash in the file
-    sed -i "s|hash = \"sha256-AAAA.*\"|hash = \"$new_hash\"|; s|hash = \"sha256-AAAA\"|hash = \"$new_hash\"|" "$file"
+    # Fallback: look for url = with other fetchers
+    local url
+    url=$(sed -n 's/.*url = "\([^"]*\)".*/\1/p' "$file" | head -1)
     
-    echo "  ✓ Updated hash: $new_hash"
+    if [ -n "$url" ]; then
+        echo "  ⚠ Unknown fetcher with url: $url, skipping"
+    else
+        echo "  ⚠ No recognized fetcher found, skipping"
+    fi
+    
+    return 0
 }
 
 # Main
@@ -81,18 +126,23 @@ case "${1:-}" in
         echo ""
         echo "Update source hashes for packages"
         echo ""
+        echo "Packages with valid hashes are skipped if updated within ${TTL_SECONDS}s (2 hours)"
+        echo ""
         echo "Examples:"
-        echo "  $0 algdata     # Update single package"
-        echo "  $0 all         # Update all packages"
+        echo "  $0 async      # Update single package"
+        echo "  $0 all        # Update all packages"
         exit 1
         ;;
     all)
         echo "=== Updating all package hashes ==="
+        echo "TTL: ${TTL_SECONDS}s (2 hours) — recently updated packages will be skipped"
+        echo ""
         for file in "${PACKAGES_DIR}"/*.nix; do
             if [ -f "$file" ]; then
                 update_hash "$file" || true
             fi
         done
+        echo ""
         echo "=== Done ==="
         ;;
     *)

@@ -57,8 +57,15 @@ let
   
   # Pass through extra attrs (patches, CFLAGS, etc.) to buildIdris
   extraAttrs = builtins.removeAttrs attrs [ "pname" "ipkg" "src" "deps" "cDeps" "nativeBuildInputs" ];
-  
-  basePkg = pkgs.idris2Packages.buildIdris (extraAttrs // {
+
+  # If the ipkg is in a subdirectory, we need to cd into it during build
+  # because nixpkgs buildIdris expects the ipkg at the source root.
+  # The directory change persists through subsequent phases.
+  subdirFix = if ipkgDir != "." then {
+    preBuild = "cd ${ipkgDir}";
+  } else {};
+
+  basePkg = pkgs.idris2Packages.buildIdris (extraAttrs // subdirFix // {
     inherit src;
     ipkgName = pname;
     version = "main";
