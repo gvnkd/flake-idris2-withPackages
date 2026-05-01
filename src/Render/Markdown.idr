@@ -19,21 +19,23 @@ strip str =
     dropWhile p [] = []
     dropWhile p (x :: xs) = if p x then dropWhile p xs else x :: xs
 
-||| Collapse 3+ consecutive newlines into 2
+||| Collapse multiple consecutive blank lines into a single one,
+||| and strip leading blank lines.
 collapseNewlines : String -> String
 collapseNewlines str =
   let ls = lines str
+      isBlank : String -> Bool
+      isBlank s = all (\c => c == ' ' || c == '\t') (unpack s)
       go : List String -> List String -> List String
       go acc [] = reverse acc
       go acc (x :: xs) =
-        let blank = all (\c => c == ' ' || c == '\t') (unpack x)
-         in case acc of
-              (y :: ys) =>
-                let prevBlank = all (\c => c == ' ' || c == '\t') (unpack y)
-                 in if blank && prevBlank
-                      then go acc xs  -- skip third+ blank line
-                      else go (x :: acc) xs
-              [] => go (x :: acc) xs
+        if isBlank x
+          then case acc of
+                 [] => go [] xs
+                 (y :: ys) => if isBlank y
+                                then go acc xs
+                                else go (x :: acc) xs
+          else go (x :: acc) xs
    in unlines (go [] ls)
 
 ||| Strip leading whitespace from lines that start with markdown formatting
@@ -120,6 +122,24 @@ renderMarkdownTree inDecl (STAnn ann rest) =
 renderMarkdownTree inDecl (STConcat docs) =
   fastConcat <$> traverse (renderMarkdownTree inDecl) docs
 
+||| Strip trailing whitespace from each line
+trimTrailing : String -> String
+trimTrailing str =
+  let dropTrailing : List Char -> List Char
+      dropTrailing [] = []
+      dropTrailing (x :: xs) =
+        case dropTrailing xs of
+          [] => if x == ' ' || x == '\t' then [] else [x]
+          ys => x :: ys
+   in pack $ dropTrailing (unpack str)
+
+||| Strip trailing whitespace from all lines, then collapse blanks
+cleanMarkdown : String -> String
+cleanMarkdown str =
+  let ls = lines str
+      trimmed = map trimTrailing ls
+   in strip (collapseNewlines (unlines trimmed))
+
 export
 renderMarkdown : {auto c : Ref Ctxt Defs} ->
                  SimpleDocTree IdrisDocAnn ->
@@ -127,4 +147,4 @@ renderMarkdown : {auto c : Ref Ctxt Defs} ->
 renderMarkdown tree = do
   let cleaned = removeNewlinesFromDeclarations tree
   md <- renderMarkdownTree False cleaned
-  pure (fixIndentation (collapseNewlines (strip md)))
+  pure (strip (fixIndentation (cleanMarkdown md)))
