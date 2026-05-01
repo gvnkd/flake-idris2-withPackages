@@ -2,6 +2,7 @@ module Render.Module
 
 import Core.Context
 import Core.Core
+import Data.String
 import Idris.Doc.Annotations
 import Idris.Package.Types
 import Libraries.Text.PrettyPrint.Prettyprinter.Doc
@@ -30,7 +31,8 @@ renderModuleDoc mod modDoc mreexports mdefs = do
     Nothing => pure ""
     Just docs => do
       md <- traverse docToMarkdown docs
-      pure ("## Re-exports\n\n" ++ concat md ++ "\n")
+      let items = map ("- " ++) md
+      pure ("## Re-exports\n\n" ++ unlines items ++ "\n")
   defs <- case mdefs of
     Nothing => pure ""
     Just doc => do
