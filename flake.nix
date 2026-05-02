@@ -53,11 +53,15 @@
           '';
         };
 
+        # Build-system timeline. Bump when changing the build procedure
+        # to force rebuild of all packages that use this builder.
+        timeline = 4;
+
         # Wrapper around nixpkgs buildIdris that adds docs generation
         buildIdrisWithDocs =
           { src
           , ipkgName
-          , version ? "unversioned"
+          , version ? "t${toString timeline}"
           , idrisLibraries ? [ ]
           , nativeBuildInputs ? [ ]
           , buildInputs ? [ ]
@@ -67,7 +71,7 @@
           let
             # Extra attrs to pass to buildIdris (excluding our custom ones)
             extraAttrs = builtins.removeAttrs attrs [ "idrisLibraries" ];
-            
+
             # Use nixpkgs buildIdris for the library
             basePkg = pkgs.idris2Packages.buildIdris (extraAttrs // {
               inherit ipkgName version idrisLibraries;
@@ -76,14 +80,27 @@
             # Get the library derivation (with source for docs)
             # Also copy FFI shared libraries (.so, .dylib) created by preinstall hooks
             # to $out/lib so downstream packages can find them via LD_LIBRARY_PATH
-            libPkg = (basePkg.library { withSource = true; }).overrideAttrs (old: {
-              postInstall = ''
-                ${old.postInstall or ""}
-                # Copy FFI shared libraries to $out/lib for runtime linking
-                mkdir -p $out/lib
-                find . -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -exec cp {} $out/lib/ \; 2>/dev/null || true
-              '';
-            });
+            libPkg = pkgs.lib.fix (self:
+              (basePkg.library { withSource = true; }).overrideAttrs (old: {
+                postInstall = ''
+                  ${old.postInstall or ""}
+                  # Copy FFI shared libraries to $out/lib for runtime linking.
+                  # Search both current directory and parent (some .ipkg preinstall
+                  # hooks write to ../lib relative to their subdirectory).
+                  mkdir -p $out/lib
+                  for dir in . ..; do
+                    if [ -d "$dir" ]; then
+                      find "$dir" -maxdepth 2 -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -exec cp {} $out/lib/ \; 2>/dev/null || true
+                    fi
+                  done
+                '';
+                passthru = old.passthru // {
+                  # Ensure downstream buildIdris calls get the overridden version
+                  # (buildIdris uses lib.withSource for propagatedIdrisLibraries)
+                  withSource = self;
+                };
+              })
+            );
             
             # Collect all transitive dependencies
             allDeps = pkgs.lib.unique (

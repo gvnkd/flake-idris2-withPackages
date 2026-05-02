@@ -3,6 +3,10 @@ let
   idrisVersion = idris2.version;
   idrName = "idris2-${idrisVersion}";
   libSuffix = "lib/${idrName}";
+  # Timeline: bump this when changing the build procedure to force
+  # rebuild of all registry packages.
+  timeline = 4;
+  packageVersion = "main-t${toString timeline}";
 in
 { allLibs }:
 { pname
@@ -44,7 +48,7 @@ let
   basePkg = pkgs.idris2Packages.buildIdris (extraAttrs // subdirFix // {
     inherit src;
     ipkgName = pname;
-    version = "main";
+    version = packageVersion;
     inherit idrisLibraries;
     nativeBuildInputs = nativeBuildInputs ++ cDeps;
     buildInputs = cDeps;
@@ -52,14 +56,27 @@ let
 
   # Also copy FFI shared libraries (.so, .dylib) created by preinstall hooks
   # to $out/lib so downstream packages can find them via LD_LIBRARY_PATH
-  libPkg = (basePkg.library { withSource = true; }).overrideAttrs (old: {
-    postInstall = ''
-      ${old.postInstall or ""}
-      # Copy FFI shared libraries to $out/lib for runtime linking
-      mkdir -p $out/lib
-      find . -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -exec cp {} $out/lib/ \; 2>/dev/null || true
-    '';
-  });
+  libPkg = pkgs.lib.fix (self:
+    (basePkg.library { withSource = true; }).overrideAttrs (old: {
+      postInstall = ''
+        ${old.postInstall or ""}
+        # Copy FFI shared libraries to $out/lib for runtime linking.
+        # Search both current directory and parent (some .ipkg preinstall
+        # hooks write to ../lib relative to their subdirectory).
+        mkdir -p $out/lib
+        for dir in . ..; do
+          if [ -d "$dir" ]; then
+            find "$dir" -maxdepth 2 -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -exec cp {} $out/lib/ \; 2>/dev/null || true
+          fi
+        done
+      '';
+      passthru = old.passthru // {
+        # Ensure downstream buildIdris calls get the overridden version
+        # (buildIdris uses lib.withSource for propagatedIdrisLibraries)
+        withSource = self;
+      };
+    })
+  );
 
   # For docs generation, use the already-resolved transitive deps from libPkg
   allDepDerivations = libPkg.propagatedIdrisLibraries or [ ];
@@ -81,7 +98,7 @@ in
   docs = pkgs.stdenv.mkDerivation (docPatchAttrs // {
     name = "${pname}-docs";
     inherit src;
-    version = "main";
+    version = packageVersion;
     nativeBuildInputs = [ idris2 idris2-mkdoc-md ] ++ nativeBuildInputs ++ cDeps;
     buildInputs = allDepDerivations ++ cDeps;
 
