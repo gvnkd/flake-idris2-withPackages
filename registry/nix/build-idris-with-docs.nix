@@ -76,7 +76,8 @@ in
     installPhase = ''
       runHook preInstall
       mkdir -p $out/share/doc/${pname}
-      cp -r ./docs/* $out/share/doc/${pname}/
+      # Use -L to follow symlinks (prevents broken symlinks in store)
+      cp -rL ./docs/* $out/share/doc/${pname}/
       runHook postInstall
     '';
   });

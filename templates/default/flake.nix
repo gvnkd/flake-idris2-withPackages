@@ -48,8 +48,12 @@
           buildInputs = [
             idris2Wrapped
             pkgs.rlwrap
-            # idris2-mkdoc-md is available from the registry flake
+            # Docs generator
             idris2-withpkgs.packages.${system}.idris2-mkdoc-md
+            # Pre-built docs for dependencies (add <name>-docs packages here)
+            idris2-withpkgs.packages.${system}.json-docs
+            # idris2-withpkgs.packages.${system}.containers-docs
+            # idris2-withpkgs.packages.${system}.algebra-docs
           ];
 
           shellHook = ''
@@ -60,18 +64,19 @@
             echo "  ./build/exec/template"
             echo ""
             echo "Add dependencies:"
-            echo "  1. Edit flake.nix, add to selectedLibs: p.containers p.algebra"
-            echo "  2. Edit template.ipkg, add to depends: containers, algebra"
+            echo "  1. Edit flake.nix, add to idrisLibraries and idris2Wrapped"
+            echo "  2. Edit template.ipkg, add to depends:"
             echo "  3. Run: nix develop"
             echo ""
             echo "Generate docs:"
             echo "  idris2-mkdoc-md -o ./docs template.ipkg"
             echo ""
+            echo "Browse dependency docs:"
+            echo "  cat ${idris2-withpkgs.packages.${system}.json-docs}/share/doc/json/index.md"
+            echo "  ls ${idris2-withpkgs.packages.${system}.json-docs}/share/doc/json/"
+            echo ""
             echo "REPL with packages:"
             echo "  rlwrap idris2"
-            echo ""
-            echo "Available packages:"
-            echo "  $(idris2 --list-packages | grep -v '^  ' | head -20 | tr '\n' ' ')"
           '';
         };
       }
