@@ -43,26 +43,38 @@ main = putStrLn $ encode $ MkMessage "Hello from Idris2"
 ├── template.ipkg  # Idris2 package manifest
 ├── src/
 │   └── Main.idr   # Entry point with JSON example
+├── docs/          # Symlink to dependency documentation (created by devShell)
 ├── README.md      # This file
 └── .gitignore     # Ignores build artifacts, result, direnv
 ```
 
 ## Adding Dependencies
 
-Edit `flake.nix` and add registry packages to both `selectedLibs` and `idris2Wrapped`:
+Edit `flake.nix` and add registry packages to three places:
 
+1. **Library dependencies** (for compilation):
 ```nix
-selectedLibs = with idris2-withpkgs.packages.${system}; [
+idrisLibraries = with idris2-withpkgs.packages.${system}; [
   json
-  containers
-  algebra
+  # containers
+  # algebra
 ];
+```
 
+2. **DevShell packages** (for REPL):
+```nix
 idris2Wrapped = idris2-withpkgs.lib.${system}.withPackages (p: [
   p.json
-  p.containers
-  p.algebra
+  # p.containers
 ]);
+```
+
+3. **Documentation packages** (for browsing docs):
+```nix
+docsPkgs = with idris2-withpkgs.packages.${system}; [
+  json-docs
+  # containers-docs
+];
 ```
 
 Then add the dependency to `template.ipkg`:
@@ -85,10 +97,10 @@ The devShell includes `idris2-mkdoc-md` for generating Markdown documentation:
 
 ```bash
 # Generate docs for your project
-idris2-mkdoc-md -o ./docs template.ipkg
+idris2-mkdoc-md -o ./my-docs template.ipkg
 
 # View the generated index
-cat ./docs/index.md
+cat ./my-docs/index.md
 ```
 
 The docs generator produces GitHub-Flavored Markdown with:
@@ -97,11 +109,33 @@ The docs generator produces GitHub-Flavored Markdown with:
 - Docstrings rendered as plain text
 - Public re-exports listed
 
+## Browsing Dependency Documentation
+
+The devShell provides a `doc` command and a `./docs` symlink for browsing documentation of installed dependencies:
+
+```bash
+# List available package docs
+doc list
+
+# View a package's index
+doc show json
+
+# View a specific module
+doc show json JSON.Encoder
+doc show http Data.Compress.CRC
+
+# Or browse directly via the symlink
+ls ./docs/json/
+cat ./docs/json/JSON.Encoder.md
+```
+
+If you request a module that doesn't exist, the command lists all available modules for that package.
+
 ## Flake Outputs
 
 - `nix build` — Build the executable
 - `nix build .#lib` — Build the library
-- `nix develop` — Enter dev shell with Idris2 and registry packages
+- `nix develop` — Enter dev shell with Idris2, docs, and registry packages
 
 ## Renaming the Project
 
