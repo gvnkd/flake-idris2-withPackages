@@ -74,7 +74,16 @@
             });
             
             # Get the library derivation (with source for docs)
-            libPkg = basePkg.library { withSource = true; };
+            # Also copy FFI shared libraries (.so, .dylib) created by preinstall hooks
+            # to $out/lib so downstream packages can find them via LD_LIBRARY_PATH
+            libPkg = (basePkg.library { withSource = true; }).overrideAttrs (old: {
+              postInstall = ''
+                ${old.postInstall or ""}
+                # Copy FFI shared libraries to $out/lib for runtime linking
+                mkdir -p $out/lib
+                find . -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -exec cp {} $out/lib/ \; 2>/dev/null || true
+              '';
+            });
             
             # Collect all transitive dependencies
             allDeps = pkgs.lib.unique (
