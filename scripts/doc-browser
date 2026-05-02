@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# doc-browser - Browse Idris2 package documentation
+#
+# Usage:
+#   doc-browser list <docs-dir>                    # list packages
+#   doc-browser show <docs-dir> <package>           # view index
+#   doc-browser show <docs-dir> <package> <module>  # view module
+#
+# Or set DOCS_PATH env var and omit the docs-dir argument:
+#   DOCS_PATH=/path/to/docs doc-browser list
+
+set -euo pipefail
+
+DOCS="${DOCS_PATH:-}"
+
+# If first arg is not a subcommand, treat it as docs-dir
+if [ $# -gt 0 ] && [ "$1" != "list" ] && [ "$1" != "show" ]; then
+  DOCS="$1"
+  shift
+fi
+
+if [ -z "$DOCS" ] && [ $# -gt 0 ]; then
+  # Check if first arg after subcommand looks like a path
+  case "$1" in
+    list|show)
+      ;;
+    *)
+      DOCS="$1"
+      shift
+      ;;
+  esac
+fi
+
+if [ -z "$DOCS" ]; then
+  echo "Error: No docs directory specified." >&2
+  echo "Usage: doc-browser <docs-dir> list|show ..." >&2
+  echo "   or: DOCS_PATH=<docs-dir> doc-browser list|show ..." >&2
+  exit 1
+fi
+
+list_docs() {
+  echo "Available package documentation:"
+  echo ""
+  for dir in "$DOCS"/*; do
+    [ -d "$dir" ] || continue
+    name=$(basename "$dir")
+    index="$dir/index.md"
+    if [ -f "$index" ]; then
+      echo "  $name"
+    fi
+  done
+}
+
+show_doc() {
+  local pkg="$1"
+  local module="${2:-}"
+  local index="$DOCS/$pkg/index.md"
+
+  if [ ! -f "$index" ]; then
+    echo "No docs found for package '$pkg'" >&2
+    echo "Run 'doc-browser list' to see available packages" >&2
+    exit 1
+  fi
+
+  if [ -n "$module" ]; then
+    local mod_file="$DOCS/$pkg/${module}.md"
+    if [ -f "$mod_file" ]; then
+      cat "$mod_file"
+    else
+      echo "No module docs found for '$module' in package '$pkg'" >&2
+      echo "Available modules:" >&2
+      ls "$DOCS/$pkg/" | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
+      exit 1
+    fi
+  else
+    cat "$index"
+  fi
+}
+
+case "${1:-list}" in
+  list)
+    list_docs
+    ;;
+  show)
+    if [ -z "${2:-}" ]; then
+      echo "Usage: doc-browser show <package> [module]" >&2
+      exit 1
+    fi
+    show_doc "$2" "${3:-}"
+    ;;
+  *)
+    echo "Usage: doc-browser list | doc-browser show <package> [module]" >&2
+    exit 1
+    ;;
+esac
