@@ -95,10 +95,11 @@ def generate_fetcher(url: str, commit: str) -> str:
     hash = "sha256-AAAA";  # TODO: run ./scripts/update-hashes.sh
   }}'''
     else:
-        # Generic git fetcher
+        # Generic git fetcher - use ref for branch and rev for commit
         return f'''builtins.fetchGit {{
     url = "{url}";
-    ref = "{commit}";
+    ref = "master";
+    rev = "{commit}";
     allRefs = true;
   }}'''
 
