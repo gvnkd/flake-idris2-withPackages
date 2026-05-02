@@ -57,6 +57,9 @@ let
   depPaths = pkgs.lib.makeSearchPath libSuffix allDepDerivations;
   fullPath = "${depPaths}:${idris2}/${idrName}";
 
+  # Build LD_LIBRARY_PATH for FFI shared objects from dependencies
+  libDirs = pkgs.lib.makeSearchPath "lib" allDepDerivations;
+
   docPatchAttrs = pkgs.lib.intersectAttrs {
     postPatch = true; prePatch = true; patches = true;
     NIX_CFLAGS_COMPILE = true; CFLAGS = true; LDFLAGS = true; PKG_CONFIG_PATH = true;
@@ -76,6 +79,8 @@ in
     buildPhase = ''
       runHook preBuild
       export IDRIS2_PACKAGE_PATH="${fullPath}"
+      export LD_LIBRARY_PATH="${libDirs}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+      export IDRIS2_LIBS="${libDirs}''${IDRIS2_LIBS:+:$IDRIS2_LIBS}"
       ${if ipkgDir != "." then "cd ${ipkgDir}" else ""}
       ${idris2-mkdoc-md}/bin/idris2-mkdoc-md -o ./docs ${ipkgName}.ipkg
       runHook postBuild

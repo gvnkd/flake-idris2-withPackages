@@ -36,16 +36,18 @@
             export IDRIS2_PACKAGE_PATH="${idris2}/${idrName}:${idris2Api}/${libSuffix}''${IDRIS2_PACKAGE_PATH:+:$IDRIS2_PACKAGE_PATH}"
             idris2 --build idris2-mkdoc-md.ipkg
           '';
-          
+
           installPhase = ''
             mkdir -p $out/bin
             cp -r build/exec/* $out/bin/
-            
-            # Wrap to set IDRIS2_PACKAGE_PATH at runtime
+
+            # Wrap to set IDRIS2_PACKAGE_PATH, LD_LIBRARY_PATH, and IDRIS2_LIBS at runtime
             for bin in $out/bin/*; do
               if [ -f "$bin" ] && [ -x "$bin" ]; then
                 wrapProgram "$bin" \
-                  --prefix IDRIS2_PACKAGE_PATH : "${idris2}/${idrName}:${idris2Api}/${libSuffix}"
+                  --prefix IDRIS2_PACKAGE_PATH : "${idris2}/${idrName}:${idris2Api}/${libSuffix}" \
+                  --prefix LD_LIBRARY_PATH : "${idris2Api}/lib" \
+                  --prefix IDRIS2_LIBS : "${idris2Api}/lib"
               fi
             done
           '';
@@ -85,6 +87,9 @@
             depPaths = pkgs.lib.makeSearchPath libSuffix allDeps;
             fullPath = "${depPaths}:${idris2}/${idrName}";
             
+            # Build LD_LIBRARY_PATH for FFI shared objects
+            libDirs = pkgs.lib.makeSearchPath "lib" allDeps;
+            
             # Extract patch-related attrs for docs derivation
             docPatchAttrs = pkgs.lib.intersectAttrs {
               postPatch = true;
@@ -109,6 +114,8 @@
               buildPhase = ''
                 runHook preBuild
                 export IDRIS2_PACKAGE_PATH="${fullPath}"
+                export LD_LIBRARY_PATH="${libDirs}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+                export IDRIS2_LIBS="${libDirs}''${IDRIS2_LIBS:+:$IDRIS2_LIBS}"
                 ${idris2-mkdoc-md}/bin/idris2-mkdoc-md -o ./docs ${ipkgName}.ipkg
                 runHook postBuild
               '';
@@ -322,6 +329,9 @@
               selectedLibs = propagateLibs (selector registryLibPkgs);
               libPaths = pkgs.lib.makeSearchPath libSuffix selectedLibs;
               fullPackagePath = "${libPaths}:${idris2}/${idrName}";
+              # Collect lib/ directories for LD_LIBRARY_PATH and IDRIS2_LIBS
+              # so that FFI shared objects from dependencies can be found
+              libDirs = pkgs.lib.makeSearchPath "lib" selectedLibs;
             in
             pkgs.symlinkJoin {
               name = "idris2-with-packages";
@@ -329,7 +339,9 @@
               buildInputs = [ pkgs.makeWrapper ];
               postBuild = ''
                 wrapProgram $out/bin/idris2 \
-                  --suffix IDRIS2_PACKAGE_PATH ':' "${fullPackagePath}"
+                  --suffix IDRIS2_PACKAGE_PATH ':' "${fullPackagePath}" \
+                  --suffix LD_LIBRARY_PATH ':' "${libDirs}" \
+                  --suffix IDRIS2_LIBS ':' "${libDirs}"
               '';
             };
         };
@@ -344,6 +356,8 @@
 
           shellHook = ''
             export IDRIS2_PACKAGE_PATH="${idris2}/${idrName}:${idris2Api}/${libSuffix}''${IDRIS2_PACKAGE_PATH:+:$IDRIS2_PACKAGE_PATH}"
+            export LD_LIBRARY_PATH="${idris2Api}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+            export IDRIS2_LIBS="${idris2Api}/lib''${IDRIS2_LIBS:+:$IDRIS2_LIBS}"
             echo "Available commands:"
             echo "  generate-registry  - Regenerate packages from upstream idris2-pack-db"
           '';
