@@ -16,17 +16,12 @@ in
     pname = "evince";
     ipkg = "evince/evince.ipkg";
     inherit src;
-  deps = [
-    "pretty-show"
-  ];
+  deps = [ "pretty-show" ];
   };
   evince-hedgehog = buildIdrisWithDocs {
     pname = "evince-hedgehog";
     ipkg = "evince-hedgehog/evince-hedgehog.ipkg";
     inherit src;
-    deps = [
-      "evince"
-      "hedgehog"
-    ];
+    deps = [ "evince" "hedgehog" ];
   };
 }

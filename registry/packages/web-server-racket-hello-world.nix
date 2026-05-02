@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "afa3aa1e8b8e7367802731cb5e239ecfeed63aad";
     allRefs = true;
   };
-  deps = [ "array" "web-server-racket" ];  # TODO: Add Idris dependencies
+  deps = [ "array" "web-server-racket" ];
 }

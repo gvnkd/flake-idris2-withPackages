@@ -12,8 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-XpiCkFjIIXB9LyH0RunvTYDKgfivhVmVspT8CVmR+u8=";  # hash-updated: 2026-05-02 03:07:41
   };
-  deps = [
-    "elab-util"
-    "monocle"
-  ];
+  deps = [ "elab-util" "monocle" ];
 }

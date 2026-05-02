@@ -12,8 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-UIBcisBZCeov1YzuWt8OqHjra+wQ/aqfM5AUYpKlVpo=";  # hash-updated: 2026-05-02 03:08:10
   };
-  deps = [
-    "tailrec"
-    "freer"
-  ];
+  deps = [ "freer" "tailrec" ];
 }

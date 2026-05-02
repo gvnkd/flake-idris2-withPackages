@@ -12,8 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-sG1cFnOI8SDFEV/qwu2vEQY2hD+0Kp72Z198/LCY1tA=";  # hash-updated: 2026-05-02 03:08:11
   };
-  deps = [
-    "quantifiers-extra"
-    "ref1"
-  ];
+  deps = [ "quantifiers-extra" "ref1" ];
 }

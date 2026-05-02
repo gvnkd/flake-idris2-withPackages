@@ -16,19 +16,12 @@ in
     pname = "json";
     ipkg = "json.ipkg";
     inherit src;
-  deps = [
-    "parser"
-    "elab-util"
-    "ilex-json"
-  ];
+  deps = [ "elab-util" "ilex-json" "parser" ];
   };
   json-simple = buildIdrisWithDocs {
     pname = "json-simple";
     ipkg = "simple/json-simple.ipkg";
     inherit src;
-    deps = [
-      "elab-util"
-      "ilex-json"
-    ];
+    deps = [ "elab-util" "ilex-json" ];
   };
 }

@@ -16,24 +16,12 @@ in
     pname = "cyby-css";
     ipkg = "cyby-css/cyby-css.ipkg";
     inherit src;
-  deps = [
-    "async-dom"
-    "chem"
-    "css"
-  ];
+  deps = [ "async-dom" "chem" "css" ];
   };
   cyby-draw = buildIdrisWithDocs {
     pname = "cyby-draw";
     ipkg = "cyby-draw.ipkg";
     inherit src;
-    deps = [
-      "array"
-      "async-dom"
-      "chem"
-      "containers"
-      "cyby-css"
-      "pretty-show"
-      "svg"
-    ];
+    deps = [ "array" "async-dom" "chem" "containers" "cyby-css" "pretty-show" "svg" ];
   };
 }

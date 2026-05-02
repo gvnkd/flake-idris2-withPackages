@@ -12,10 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-H00grbjyeaW7BOcMS7DKoK7L14WKyqPyC0XgYIByeZo=";  # hash-updated: 2026-05-02 03:07:43
   };
-  deps = [
-    "async-epoll"
-    "ilex"
-    "ilex-streams"
-    "streams-posix"
-  ];
+  deps = [ "async-epoll" "ilex" "ilex-streams" "streams-posix" ];
 }

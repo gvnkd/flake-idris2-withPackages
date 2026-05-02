@@ -16,22 +16,12 @@ in
     pname = "pack";
     ipkg = "pack.ipkg";
     inherit src;
-  deps = [
-    "elab-util"
-    "filepath"
-    "getopts"
-    "ilex-toml"
-  ];
+  deps = [ "elab-util" "filepath" "getopts" "idris2" "ilex-toml" ];
   };
   pack-admin = buildIdrisWithDocs {
     pname = "pack-admin";
     ipkg = "pack-admin.ipkg";
     inherit src;
-    deps = [
-      "elab-util"
-      "filepath"
-      "getopts"
-      "ilex-toml"
-    ];
+    deps = [ "elab-util" "filepath" "getopts" "idris2" "ilex-toml" ];
   };
 }

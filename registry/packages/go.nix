@@ -16,7 +16,7 @@ in
     pname = "idris2-go";
     ipkg = "idris2-go.ipkg";
     inherit src;
-  deps = [ ];
+  deps = [ "idris2" ];
   };
   idris2-go-lib = buildIdrisWithDocs {
     pname = "idris2-go-lib";

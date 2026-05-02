@@ -16,23 +16,12 @@ in
     pname = "chem";
     ipkg = "chem.ipkg";
     inherit src;
-  deps = [
-    "elab-util"
-    "finite"
-    "ilex"
-    "indexed-graph"
-    "pretty-show"
-    "quantifiers-extra"
-    "refined"
-  ];
+  deps = [ "elab-util" "finite" "ilex" "indexed-graph" "pretty-show" "quantifiers-extra" "refined" ];
   };
   chem-generators = buildIdrisWithDocs {
     pname = "chem-generators";
     ipkg = "chem-generators/chem-generators.ipkg";
     inherit src;
-    deps = [
-      "chem"
-      "hedgehog"
-    ];
+    deps = [ "chem" "hedgehog" ];
   };
 }

@@ -12,9 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-W3uwjs18LxoLx+ujTHVI89J2p6REuBS4NOE763OtIgM=";  # hash-updated: 2026-05-02 03:09:38
   };
-  deps = [
-    "elab-util"
-    "filepath"
-    # rio (Deprecated, not in registry)
-  ];
+  deps = [ "elab-util" "filepath" "rio" ];
 }

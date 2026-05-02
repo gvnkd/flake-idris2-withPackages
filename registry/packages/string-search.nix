@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "96b3ba239f8bb7b2cf11b6078efde10057b5821a";
     allRefs = true;
   };
-  deps = [ ];  # TODO: Add Idris dependencies
+  deps = [ ];
 }

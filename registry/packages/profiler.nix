@@ -12,7 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-mr/ExJ4lKss8SJqNto0c5Todjvh6Dxv74z6ZducTu08=";  # hash-updated: 2026-05-02 03:09:35
   };
-  deps = [
-    "refined"
-  ];
+  deps = [ "refined" ];
 }

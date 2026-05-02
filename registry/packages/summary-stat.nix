@@ -13,8 +13,5 @@ buildIdrisWithDocs {
     rev = "master";
     hash = "sha256-WbY7CAVyqQDIsnwS5KPJg9xhjBfYrc5l+/gOFXPle9w=";  # hash-updated: 2026-05-02 03:09:57
   };
-  deps = [
-    "bounded-doubles"
-    "weaker-traversals"
-  ];
+  deps = [ "bounded-doubles" "weaker-traversals" ];
 }

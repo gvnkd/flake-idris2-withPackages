@@ -12,10 +12,5 @@ buildIdrisWithDocs {
     rev = "master";
     hash = "sha256-VxprrHyYyAEjfdC6OYYg9FVRQmesfEYt30OMUE1IRY4=";  # hash-updated: 2026-05-02 03:07:47
   };
-  deps = [
-    "best-alternative"
-    "dependent-vect"
-    "i-hate-parens"
-    "fin-lizzie"
-  ];
+  deps = [ "best-alternative" "dependent-vect" "fin-lizzie" "i-hate-parens" ];
 }

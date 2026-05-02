@@ -16,20 +16,12 @@ in
     pname = "linux";
     ipkg = "linux/linux.ipkg";
     inherit src;
-  deps = [
-    "posix"
-  ];
+  deps = [ "posix" ];
   };
   posix = buildIdrisWithDocs {
     pname = "posix";
     ipkg = "posix/posix.ipkg";
     inherit src;
-    deps = [
-      "bytestring"
-      "cptr"
-      "elab-util"
-      "elin"
-      "finite"
-    ];
+    deps = [ "bytestring" "cptr" "elab-util" "elin" "finite" ];
   };
 }

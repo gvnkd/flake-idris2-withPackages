@@ -16,27 +16,18 @@ in
     pname = "refined";
     ipkg = "refined.ipkg";
     inherit src;
-  deps = [
-    "elab-util"
-    "algebra"
-  ];
+  deps = [ "algebra" "elab-util" ];
   };
   refined-json = buildIdrisWithDocs {
     pname = "refined-json";
     ipkg = "json/refined-json.ipkg";
     inherit src;
-    deps = [
-      "refined"
-      "json-simple"
-    ];
+    deps = [ "json-simple" "refined" ];
   };
   refined-tsv = buildIdrisWithDocs {
     pname = "refined-tsv";
     ipkg = "tsv/refined-tsv.ipkg";
     inherit src;
-    deps = [
-      "refined"
-      "parser-tsv"
-    ];
+    deps = [ "parser-tsv" "refined" ];
   };
 }

@@ -12,10 +12,5 @@ buildIdrisWithDocs {
     rev = "master";
     hash = "sha256-lLPxJzQp0JNYG045f9xnOxQw2VSxh/KR7eefdsCpMp4=";  # hash-updated: 2026-05-02 03:09:44
   };
-  deps = [
-    "best-alternative"
-    "collection-utils"
-    "elab-util"
-    "i-hate-parens"
-  ];
+  deps = [ "best-alternative" "collection-utils" "elab-util" "i-hate-parens" ];
 }

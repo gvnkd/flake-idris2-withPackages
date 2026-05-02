@@ -12,8 +12,5 @@ buildIdrisWithDocs {
     rev = "master";
     hash = "sha256-ZgU+TjdySIFse+MYFHzTSI5SjoJR5y8RDerltb4rRiE=";  # hash-updated: 2026-05-02 03:10:05
   };
-  deps = [
-    "sop"
-    "elab-util"
-  ];
+  deps = [ "elab-util" "sop" ];
 }

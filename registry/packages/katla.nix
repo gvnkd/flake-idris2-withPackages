@@ -16,10 +16,7 @@ in
     pname = "katla";
     ipkg = "katla.ipkg";
     inherit src;
-  deps = [
-    "collie"
-    "idrall"
-  ];
+  deps = [ "collie" "idrall" "idris2" ];
   };
   katla-pandoc = buildIdrisWithDocs {
     pname = "katla-pandoc";

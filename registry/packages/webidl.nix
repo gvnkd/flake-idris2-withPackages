@@ -12,9 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-IWi36o1J9QdHvSqazg3KGgL960xg6nRbo8CdsWOJfec=";  # hash-updated: 2026-05-02 03:10:16
   };
-  deps = [
-    "parser-webidl"
-    "prettier"
-    "getopts"
-  ];
+  deps = [ "getopts" "parser-webidl" "prettier" ];
 }

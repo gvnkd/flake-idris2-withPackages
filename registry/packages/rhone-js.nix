@@ -12,10 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-t4sIKCyCjJerWpZxj9uUuUUVRHvN4H98AGYmrk0Gu5w=";  # hash-updated: 2026-05-02 03:09:47
   };
-  deps = [
-    "dom"
-    "rhone"
-    "refined"
-    "tailrec"
-  ];
+  deps = [ "dom" "refined" "rhone" "tailrec" ];
 }

@@ -16,9 +16,7 @@ in
     pname = "log4types";
     ipkg = "log4types/log4types.ipkg";
     inherit src;
-  deps = [
-    "log4types-core"
-  ];
+  deps = [ "log4types-core" ];
   };
   log4types-core = buildIdrisWithDocs {
     pname = "log4types-core";
@@ -30,8 +28,6 @@ in
     pname = "log4types-json";
     ipkg = "log4types-json/log4types-json.ipkg";
     inherit src;
-    deps = [
-      "log4types-core"
-    ];
+    deps = [ "log4types-core" ];
   };
 }

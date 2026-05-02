@@ -12,7 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-N6ojdGSoqQ+AIAbriRtl01lhHqXlEylKLiTEbmUt4uE=";  # hash-updated: 2026-05-02 03:09:16
   };
-  deps = [
-    "lsp-lib"
-  ];
+  deps = [ "idris2" "lsp-lib" ];
 }

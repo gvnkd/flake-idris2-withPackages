@@ -12,9 +12,5 @@ buildIdrisWithDocs {
     rev = "master";
     hash = "sha256-MuP583CEKeGXnQABOZUC54fG8NTjnLoXskEq8t0TqfE=";  # hash-updated: 2026-05-02 03:07:53
   };
-  deps = [
-    "mtl-tuple-impls"
-    "tailrec"
-    "time-for-sleep"
-  ];
+  deps = [ "mtl-tuple-impls" "tailrec" "time-for-sleep" ];
 }

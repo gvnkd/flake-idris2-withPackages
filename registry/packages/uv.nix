@@ -16,20 +16,12 @@ in
     pname = "uv";
     ipkg = "uv.ipkg";
     inherit src;
-  deps = [
-    "uv-data"
-    "elab-util"
-    "bytestring"
-    "quantifiers-extra"
-    "containers"
-  ];
+  deps = [ "bytestring" "containers" "elab-util" "quantifiers-extra" "uv-data" ];
   };
   uv-data = buildIdrisWithDocs {
     pname = "uv-data";
     ipkg = "data/uv-data.ipkg";
     inherit src;
-    deps = [
-      "elab-util"
-    ];
+    deps = [ "elab-util" ];
   };
 }

@@ -16,19 +16,12 @@ in
     pname = "sqlite3";
     ipkg = "sqlite3.ipkg";
     inherit src;
-  deps = [
-    "elab-util"
-    "bytestring"
-    "quantifiers-extra"
-  ];
+  deps = [ "bytestring" "elab-util" "quantifiers-extra" ];
   };
   sqlite3-streams = buildIdrisWithDocs {
     pname = "sqlite3-streams";
     ipkg = "sqlite3-streams/sqlite3-streams.ipkg";
     inherit src;
-    deps = [
-      "sqlite3"
-      "streams"
-    ];
+    deps = [ "sqlite3" "streams" ];
   };
 }

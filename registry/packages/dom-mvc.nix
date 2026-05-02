@@ -16,24 +16,12 @@ in
     pname = "dom-mvc";
     ipkg = "dom-mvc.ipkg";
     inherit src;
-  deps = [
-    "dom"
-    "containers"
-    "json-simple"
-    "refined"
-    "tailrec"
-    "css"
-  ];
+  deps = [ "containers" "css" "dom" "json-simple" "refined" "tailrec" ];
   };
   dom-mvc-extra = buildIdrisWithDocs {
     pname = "dom-mvc-extra";
     ipkg = "extra/dom-mvc-extra.ipkg";
     inherit src;
-    deps = [
-      "dom-mvc"
-      "monocle"
-      "barbies"
-      "filepath"
-    ];
+    deps = [ "barbies" "dom-mvc" "filepath" "monocle" ];
   };
 }

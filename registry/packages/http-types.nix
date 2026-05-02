@@ -16,29 +16,18 @@ in
     pname = "http-client-api";
     ipkg = "http-client-api/http-client-api.ipkg";
     inherit src;
-  deps = [
-    "http-types"
-    "async-js"
-    "async-dom"
-    "dom"
-  ];
+  deps = [ "async-dom" "async-js" "dom" "http-types" ];
   };
   http-types = buildIdrisWithDocs {
     pname = "http-types";
     ipkg = "http-types.ipkg";
     inherit src;
-    deps = [
-      "ilex"
-      "json-simple"
-    ];
+    deps = [ "ilex" "json-simple" ];
   };
   http-server-api = buildIdrisWithDocs {
     pname = "http-server-api";
     ipkg = "http-server-api/http-server-api.ipkg";
     inherit src;
-    deps = [
-      "http-types"
-      "streams-posix"
-    ];
+    deps = [ "http-types" "streams-posix" ];
   };
 }

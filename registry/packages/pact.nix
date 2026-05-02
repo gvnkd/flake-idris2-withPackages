@@ -16,29 +16,19 @@ in
     pname = "pact-api";
     ipkg = "api/pact-api.ipkg";
     inherit src;
-  deps = [
-    "json"
-    "pact-wai"
-    "apache-mime-types"
-  ];
+  deps = [ "apache-mime-types" "json" "pact-wai" ];
   };
   pact-client = buildIdrisWithDocs {
     pname = "pact-client";
     ipkg = "client/pact-client.ipkg";
     inherit src;
-    deps = [
-      "pact-api"
-      "http"
-    ];
+    deps = [ "http" "pact-api" ];
   };
   pact-server = buildIdrisWithDocs {
     pname = "pact-server";
     ipkg = "server/pact-server.ipkg";
     inherit src;
-    deps = [
-      "pact-wai"
-      "pact-api"
-    ];
+    deps = [ "pact-api" "pact-wai" ];
   };
   pact-wai = buildIdrisWithDocs {
     pname = "pact-wai";
@@ -50,14 +40,6 @@ in
     pname = "pact-todomvc";
     ipkg = "todomvc/pact-todomvc.ipkg";
     inherit src;
-    deps = [
-      "streams-posix"
-      "async-epoll"
-      "json"
-      "pact-api"
-      "pact-wai"
-      "pact-server"
-      "pact-client"
-    ];
+    deps = [ "async-epoll" "json" "pact-api" "pact-client" "pact-server" "pact-wai" "streams-posix" ];
   };
 }

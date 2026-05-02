@@ -12,9 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-jBSOeK72CMxM9FWVfMm2CNF3V0yCbWCEjZ6p/bUcFPE=";  # hash-updated: 2026-05-02 03:09:56
   };
-  deps = [
-    "array"
-    "bytestring"
-    "ref1"
-  ];
+  deps = [ "array" "bytestring" "ref1" ];
 }

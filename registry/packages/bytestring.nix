@@ -12,8 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-kq8uYI5STgxJ7g1EgjaG7FGfZQ85qxBRm/bb6gI/hbk=";  # hash-updated: 2026-05-02 03:07:45
   };
-  deps = [
-    "algebra"
-    "array"
-  ];
+  deps = [ "algebra" "array" ];
 }

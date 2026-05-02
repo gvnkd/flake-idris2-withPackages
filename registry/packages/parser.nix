@@ -16,55 +16,36 @@ in
     pname = "parser";
     ipkg = "parser.ipkg";
     inherit src;
-  deps = [
-    "elab-util"
-    "bytestring"
-    "ilex-core"
-  ];
+  deps = [ "bytestring" "elab-util" "ilex-core" ];
   };
   parser-show = buildIdrisWithDocs {
     pname = "parser-show";
     ipkg = "show/parser-show.ipkg";
     inherit src;
-    deps = [
-      "parser"
-      "prettier"
-    ];
+    deps = [ "parser" "prettier" ];
   };
   parser-tsv = buildIdrisWithDocs {
     pname = "parser-tsv";
     ipkg = "tsv/parser-tsv.ipkg";
     inherit src;
-    deps = [
-      "parser"
-      "elab-util"
-    ];
+    deps = [ "elab-util" "parser" ];
   };
   parser-toml = buildIdrisWithDocs {
     pname = "parser-toml";
     ipkg = "toml/parser-toml.ipkg";
     inherit src;
-    deps = [
-      "parser"
-      "refined"
-    ];
+    deps = [ "parser" "refined" ];
   };
   parser-webidl = buildIdrisWithDocs {
     pname = "parser-webidl";
     ipkg = "webidl/parser-webidl.ipkg";
     inherit src;
-    deps = [
-      "parser"
-      "refined"
-      "sop"
-    ];
+    deps = [ "parser" "refined" "sop" ];
   };
   parser-json = buildIdrisWithDocs {
     pname = "parser-json";
     ipkg = "json/parser-json.ipkg";
     inherit src;
-    deps = [
-      "parser"
-    ];
+    deps = [ "parser" ];
   };
 }

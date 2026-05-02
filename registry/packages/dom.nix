@@ -16,18 +16,12 @@ in
     pname = "dom";
     ipkg = "dom.ipkg";
     inherit src;
-  deps = [
-    "js"
-    "elab-util"
-  ];
+  deps = [ "elab-util" "js" ];
   };
   js = buildIdrisWithDocs {
     pname = "js";
     ipkg = "js/js.ipkg";
     inherit src;
-    deps = [
-      "elab-util"
-      "quantifiers-extra"
-    ];
+    deps = [ "elab-util" "quantifiers-extra" ];
   };
 }

@@ -22,9 +22,6 @@ in
     pname = "bounded-doubles-hedgehog-generators";
     ipkg = "hedgehog-generators.ipkg";
     inherit src;
-    deps = [
-      "hedgehog"
-      "bounded-doubles"
-    ];
+    deps = [ "bounded-doubles" "hedgehog" ];
   };
 }

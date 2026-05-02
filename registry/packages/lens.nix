@@ -12,8 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-JV7fdlF39Y0uUlUJsMG6t+X9N+Dd+/twIfb6Rhlg8OU=";  # hash-updated: 2026-05-02 03:09:11
   };
-  deps = [
-    "profunctors"
-    "elab-util"
-  ];
+  deps = [ "elab-util" "profunctors" ];
 }

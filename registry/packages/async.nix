@@ -16,49 +16,30 @@ in
     pname = "async";
     ipkg = "async.ipkg";
     inherit src;
-  deps = [
-    "array"
-    "containers"
-    "elin"
-    "quantifiers-extra"
-  ];
+  deps = [ "array" "containers" "elin" "quantifiers-extra" ];
   };
   async-js = buildIdrisWithDocs {
     pname = "async-js";
     ipkg = "async-js/async-js.ipkg";
     inherit src;
-    deps = [
-      "async"
-      "js"
-    ];
+    deps = [ "async" "js" ];
   };
   async-epoll = buildIdrisWithDocs {
     pname = "async-epoll";
     ipkg = "async-epoll/async-epoll.ipkg";
     inherit src;
-    deps = [
-      "async-posix"
-      "linux"
-    ];
+    deps = [ "async-posix" "linux" ];
   };
   async-posix = buildIdrisWithDocs {
     pname = "async-posix";
     ipkg = "async-posix/async-posix.ipkg";
     inherit src;
-    deps = [
-      "async"
-      "posix"
-      "ansi"
-    ];
+    deps = [ "ansi" "async" "posix" ];
   };
   async-spec = buildIdrisWithDocs {
     pname = "async-spec";
     ipkg = "async-spec/async-spec.ipkg";
     inherit src;
-    deps = [
-      "async"
-      "pretty-show"
-      "prettier-ansi"
-    ];
+    deps = [ "async" "prettier-ansi" "pretty-show" ];
   };
 }

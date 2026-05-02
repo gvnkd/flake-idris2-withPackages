@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "15301789fed2985cbe1d31bb862731ba8de33b00";
     allRefs = true;
   };
-  deps = [ "finite" "json" "json-simple" ];  # TODO: Add Idris dependencies
+  deps = [ "finite" "json" "json-simple" ];
 }

@@ -12,7 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-rCqDXN2FC5vGCJCZOh085df1cDKCMQXqhsojPQa5b18=";  # hash-updated: 2026-05-02 03:08:16
   };
-  deps = [
-    "elab-util"
-  ];
+  deps = [ "elab-util" ];
 }

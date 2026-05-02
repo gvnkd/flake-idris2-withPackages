@@ -16,33 +16,12 @@ in
     pname = "deptycheck";
     ipkg = "deptycheck.ipkg";
     inherit src;
-  deps = [
-    "ansi"
-    "best-alternative"
-    "dependent-vect"
-    "elab-util-extra"
-    "i-hate-parens"
-    "if-unsolved-implicit"
-    "mtl-tuple-impls"
-    "positive-nat"
-    "random-pure"
-    "typelevel-emptiness-collections"
-  ];
+  deps = [ "ansi" "best-alternative" "dependent-vect" "elab-util-extra" "i-hate-parens" "if-unsolved-implicit" "mtl-tuple-impls" "positive-nat" "random-pure" "typelevel-emptiness-collections" ];
   };
   elab-util-extra = buildIdrisWithDocs {
     pname = "elab-util-extra";
     ipkg = "elab-util-extra/elab-util-extra.ipkg";
     inherit src;
-    deps = [
-      "collection-utils"
-      "containers"
-      "cozippable"
-      "elab-pretty"
-      "elab-util"
-      "fin-lizzie"
-      "i-hate-parens"
-      "mk"
-      "mtl-tuple-impls"
-    ];
+    deps = [ "collection-utils" "containers" "cozippable" "elab-pretty" "elab-util" "fin-lizzie" "i-hate-parens" "mk" "mtl-tuple-impls" ];
   };
 }

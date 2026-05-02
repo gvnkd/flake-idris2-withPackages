@@ -12,9 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-jPpgorj2NA/63t3hHRAkz7DeZvFdeofGUrGwGei8mqs=";  # hash-updated: 2026-05-02 03:09:50
   };
-  deps = [
-    "ansi"
-    "async-epoll"
-    "http-server-api"
-  ];
+  deps = [ "ansi" "async-epoll" "http-server-api" ];
 }

@@ -16,35 +16,18 @@ in
     pname = "stellar-api";
     ipkg = "api/stellar-api.ipkg";
     inherit src;
-  deps = [
-    "algdata"
-    "fs-utils"
-  ];
+  deps = [ "algdata" "fs-utils" ];
   };
   stellar-http = buildIdrisWithDocs {
     pname = "stellar-http";
     ipkg = "http/stellar-http.ipkg";
     inherit src;
-    deps = [
-      "stellar-api"
-      "tyttp"
-      "node"
-      "tyttp-adapter-node"
-      "continuation-monad"
-      "json-simple"
-      "fs-utils"
-    ];
+    deps = [ "continuation-monad" "fs-utils" "json-simple" "node" "stellar-api" "tyttp" "tyttp-adapter-node" ];
   };
   stellar-sql = buildIdrisWithDocs {
     pname = "stellar-sql";
     ipkg = "sql/stellar-sql.ipkg";
     inherit src;
-    deps = [
-      "sqlite3"
-      "sqlite3-rio"
-      "algdata"
-      "stellar-api"
-      "json"
-    ];
+    deps = [ "algdata" "json" "sqlite3" "sqlite3-rio" "stellar-api" ];
   };
 }

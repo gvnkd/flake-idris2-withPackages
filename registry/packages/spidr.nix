@@ -16,18 +16,18 @@ in
     pname = "pjrt-plugin-xla-cpu";
     ipkg = "pjrt-plugins/xla-cpu/pjrt-plugin-xla-cpu.ipkg";
     inherit src;
-    deps = [ ];  # TODO: Add Idris dependencies
+    deps = [ "spidr" ];
   };
   pjrt-plugin-xla-cuda = buildIdrisWithDocs {
     pname = "pjrt-plugin-xla-cuda";
     ipkg = "pjrt-plugins/xla-cuda/pjrt-plugin-xla-cuda.ipkg";
     inherit src;
-    deps = [ ];  # TODO: Add Idris dependencies
+    deps = [ "spidr" ];
   };
   spidr = buildIdrisWithDocs {
     pname = "spidr";
     ipkg = "spidr/spidr.ipkg";
     inherit src;
-    deps = [ ];  # TODO: Add Idris dependencies
+    deps = [ "elab-util" ];
   };
 }

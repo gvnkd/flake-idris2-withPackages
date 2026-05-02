@@ -16,58 +16,36 @@ in
     pname = "ilex";
     ipkg = "ilex.ipkg";
     inherit src;
-  deps = [
-    "elab-util"
-    "algebra"
-    "array"
-    "bytestring"
-    "ilex-core"
-    "refined"
-  ];
+  deps = [ "algebra" "array" "bytestring" "elab-util" "ilex-core" "refined" ];
   };
   ilex-core = buildIdrisWithDocs {
     pname = "ilex-core";
     ipkg = "core/ilex-core.ipkg";
     inherit src;
-    deps = [
-      "elab-util"
-      "bytestring"
-    ];
+    deps = [ "bytestring" "elab-util" ];
   };
   ilex-debug = buildIdrisWithDocs {
     pname = "ilex-debug";
     ipkg = "debug/ilex-debug.ipkg";
     inherit src;
-    deps = [
-      "ilex"
-      "elab-pretty"
-    ];
+    deps = [ "elab-pretty" "ilex" ];
   };
   ilex-streams = buildIdrisWithDocs {
     pname = "ilex-streams";
     ipkg = "streams/ilex-streams.ipkg";
     inherit src;
-    deps = [
-      "ilex"
-      "streams"
-      "elin"
-    ];
+    deps = [ "elin" "ilex" "streams" ];
   };
   ilex-json = buildIdrisWithDocs {
     pname = "ilex-json";
     ipkg = "json/ilex-json.ipkg";
     inherit src;
-    deps = [
-      "ilex"
-    ];
+    deps = [ "ilex" ];
   };
   ilex-toml = buildIdrisWithDocs {
     pname = "ilex-toml";
     ipkg = "toml/ilex-toml.ipkg";
     inherit src;
-    deps = [
-      "ilex"
-      "refined"
-    ];
+    deps = [ "ilex" "refined" ];
   };
 }

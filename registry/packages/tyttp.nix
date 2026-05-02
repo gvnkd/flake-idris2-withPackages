@@ -16,34 +16,18 @@ in
     pname = "tyttp";
     ipkg = "tyttp.ipkg";
     inherit src;
-  deps = [
-    "apache-mime-types"
-    "promise"
-  ];
+  deps = [ "apache-mime-types" "promise" ];
   };
   tyttp-adapter-node = buildIdrisWithDocs {
     pname = "tyttp-adapter-node";
     ipkg = "adapter-node/tyttp-adapter-node.ipkg";
     inherit src;
-    deps = [
-      "apache-mime-types"
-      "node"
-      "promise"
-      "tyttp"
-    ];
+    deps = [ "apache-mime-types" "node" "promise" "tyttp" ];
   };
   tyttp-json = buildIdrisWithDocs {
     pname = "tyttp-json";
     ipkg = "json/tyttp-json.ipkg";
     inherit src;
-    deps = [
-      "tyttp"
-      "promise"
-      "json"
-      "sop"
-      "elab-util"
-      "apache-mime-types"
-      "node"
-    ];
+    deps = [ "apache-mime-types" "elab-util" "json" "node" "promise" "sop" "tyttp" ];
   };
 }

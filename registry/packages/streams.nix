@@ -16,20 +16,12 @@ in
     pname = "streams";
     ipkg = "streams.ipkg";
     inherit src;
-  deps = [
-    "async"
-    "bytestring"
-    "elin"
-  ];
+  deps = [ "async" "bytestring" "elin" ];
   };
   streams-posix = buildIdrisWithDocs {
     pname = "streams-posix";
     ipkg = "posix/streams-posix.ipkg";
     inherit src;
-    deps = [
-      "async-posix"
-      "filepath"
-      "streams"
-    ];
+    deps = [ "async-posix" "filepath" "streams" ];
   };
 }

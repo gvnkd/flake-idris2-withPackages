@@ -12,13 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-KSCwxaZkPUtrKo5ImamkpBPcl0vtB67/tcclQX8Me1Q=";  # hash-updated: 2026-05-02 03:07:41
   };
-  deps = [
-    "async-js"
-    "barbies"
-    "dom"
-    "css"
-    "json-simple"
-    "monocle"
-    "streams"
-  ];
+  deps = [ "async-js" "barbies" "css" "dom" "json-simple" "monocle" "streams" ];
 }

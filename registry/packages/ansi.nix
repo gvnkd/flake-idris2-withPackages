@@ -22,9 +22,6 @@ in
     pname = "prettier-ansi";
     ipkg = "prettier/prettier-ansi.ipkg";
     inherit src;
-    deps = [
-      "ansi"
-      "prettier"
-    ];
+    deps = [ "ansi" "prettier" ];
   };
 }

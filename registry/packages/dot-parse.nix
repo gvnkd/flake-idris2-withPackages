@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "main";
     hash = "sha256-7rzV7pEH+PerjRJohNq0nUWcD7mNsAp6vxkY9auQSlY=";  # hash-updated: 2026-05-02 03:08:08
   };
-  deps = [ ];
+  deps = [ "idris2" ];
 }

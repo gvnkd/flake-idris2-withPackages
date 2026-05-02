@@ -16,10 +16,7 @@ in
     pname = "elab-pretty";
     ipkg = "elab-pretty.ipkg";
     inherit src;
-  deps = [
-    "elab-util"
-    "prettier"
-  ];
+  deps = [ "elab-util" "prettier" ];
   };
   elab-util = buildIdrisWithDocs {
     pname = "elab-util";

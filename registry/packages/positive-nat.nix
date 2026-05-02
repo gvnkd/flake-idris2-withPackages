@@ -12,7 +12,5 @@ buildIdrisWithDocs {
     rev = "master";
     hash = "sha256-VVVYM9sd7SOyAvAPtjuIDMabjIiatDBMDpIO7neQKhY=";  # hash-updated: 2026-05-02 03:09:31
   };
-  deps = [
-    "typelevel-emptiness-collections"
-  ];
+  deps = [ "typelevel-emptiness-collections" ];
 }
