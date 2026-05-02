@@ -143,6 +143,17 @@ nix build .#json        # builds parser, ilex-core, bytestring, refined, ... aut
 nix build .#json-docs
 ls result/share/doc/json/
 
+# Browse docs interactively
+nix build .#json-docs-with-browser
+./result/bin/doc-browser list         # List modules
+./result/bin/doc-browser show JSON    # View JSON.md
+
+# Browse multiple packages at once
+nix build .#all-docs
+./result/bin/doc-browser list              # List packages
+./result/bin/doc-browser show json         # View json index
+./result/bin/doc-browser show json JSON.Encoder  # View specific module
+
 # Enter a shell with all registry libraries available
 nix develop
 ```
@@ -277,6 +288,10 @@ sourcedir = "src"
 - [x] Broken package handling for unhashable sources
 - [x] Flake template for new projects
 - [x] Verified builds: `algebra`, `array`, `containers`, `hashable`, `json`, `hedgehog`, `async`, `ilex-core`
+
+## Development
+
+See [`docs/HACKING.md`](docs/HACKING.md) for a comprehensive guide to the flake architecture, registry system, dependency resolution, documentation generation, and development workflow.
 
 ## License
 
