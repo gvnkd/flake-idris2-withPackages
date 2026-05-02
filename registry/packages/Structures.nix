@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://git.sr.ht/~thatonelutenist/Structures";
     ref = "trunk";
+    rev = "cd11a19794a139ccb14441c4d522de3d2b201083";
     allRefs = true;
   };
   deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
 }

@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://git.sr.ht/~janus/web-server-racket-hello-world";
     ref = "master";
+    rev = "afa3aa1e8b8e7367802731cb5e239ecfeed63aad";
     allRefs = true;
   };
   deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
 }

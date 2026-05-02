@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://git.sr.ht/~janus/pg-types";
     ref = "master";
+    rev = "b854bbcfb5e9e303d836d9b5a733b0060eb9e90a";
     allRefs = true;
   };
   deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
 }

@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://git.sr.ht/~janus/http2";
     ref = "master";
+    rev = "ce3e72a7843c6c42b7b30d62699b675001fa1e6c";
     allRefs = true;
   };
-  deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
+  deps = [ "cont" "buf-conn" "pg-types" ];
 }

@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://git.sr.ht/~janus/scram";
     ref = "master";
+    rev = "f02823727535bbe673bf4bd40f7a5d1fefc3923e";
     allRefs = true;
   };
   deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
 }

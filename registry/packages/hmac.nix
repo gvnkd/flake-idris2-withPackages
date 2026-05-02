@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://git.sr.ht/~janus/hmac";
     ref = "master";
+    rev = "14dbc91cb3e84dcd70cdda8efe8e48e97f3fb8f5";
     allRefs = true;
   };
   deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
 }

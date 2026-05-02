@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://codeberg.org/joelberkeley/c-ffi";
     ref = "master";
+    rev = "6c54ca867a124b3fa291b2ac3acdf54cd0f30110";
     allRefs = true;
   };
   deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
 }

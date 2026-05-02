@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://codeberg.org/berg4478/idris2-text-markdown";
     ref = "main";
+    rev = "0cd58c79d6112756557eb8f0785342dbbef00eb9";
     allRefs = true;
   };
   deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
 }

@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = builtins.fetchGit {
     url = "https://git.sr.ht/~janus/buf-conn";
     ref = "master";
+    rev = "6423008862b921f92bcd582de80a6488097d1591";
     allRefs = true;
   };
-  deps = [ ];  # TODO: Add Idris dependencies
-  meta.broken = true;
+  deps = [ "cont" ];
 }

@@ -7,6 +7,7 @@ let
   src = builtins.fetchGit {
     url = "https://codeberg.org/joelberkeley/spidr";
     ref = "master";
+    rev = "b1170d081fa40169f16338fb2beef53b4448c3d8";
     allRefs = true;
   };
 in
@@ -29,5 +30,4 @@ in
     inherit src;
     deps = [ ];  # TODO: Add Idris dependencies
   };
-  meta.broken = true;
 }
