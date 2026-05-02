@@ -44,66 +44,13 @@
           paths = docsPkgs;
         };
 
-        # Helper script: doc list | doc show <pkg>
-        docScript = pkgs.writeShellScriptBin "doc" ''
-          DOCS="${combinedDocs}/share/doc"
-
-          list_docs() {
-            echo "Available package documentation:"
-            echo ""
-            for dir in "$DOCS"/*; do
-              [ -d "$dir" ] || continue
-              name=$(basename "$dir")
-              index="$dir/index.md"
-              if [ -f "$index" ]; then
-                echo "  $name"
-              fi
-            done
-          }
-
-          show_doc() {
-            local pkg="$1"
-            local module="''${2:-}"
-            local index="$DOCS/$pkg/index.md"
-
-            if [ ! -f "$index" ]; then
-              echo "No docs found for package '$pkg'" >&2
-              echo "Run 'doc list' to see available packages" >&2
-              exit 1
-            fi
-
-            if [ -n "$module" ]; then
-              # Module path: Data.Compress.CRC -> Data.Compress.CRC.md
-              local mod_file="$DOCS/$pkg/''${module}.md"
-              if [ -f "$mod_file" ]; then
-                cat "$mod_file"
-              else
-                echo "No module docs found for '$module' in package '$pkg'" >&2
-                echo "Available modules:" >&2
-                ls "$DOCS/$pkg/" | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
-                exit 1
-              fi
-            else
-              cat "$index"
-            fi
-          }
-
-          case "''${1:-list}" in
-            list)
-              list_docs
-              ;;
-            show)
-              if [ -z "''${2:-}" ]; then
-                echo "Usage: doc show <package> [module]" >&2
-                exit 1
-              fi
-              show_doc "$2" "''${3:-}"
-              ;;
-            *)
-              echo "Usage: doc list | doc show <package> [module]" >&2
-              exit 1
-              ;;
-          esac
+        # Helper script: doc list | doc show <pkg> [<module>]
+        docScript = pkgs.runCommand "doc" {} ''
+          mkdir -p $out/bin
+          cp ${pkgs.replaceVars ./scripts/doc {
+            DOCS = "${combinedDocs}/share/doc";
+          }} $out/bin/doc
+          chmod +x $out/bin/doc
         '';
 
         pkg = pkgs.idris2Packages.buildIdris {
