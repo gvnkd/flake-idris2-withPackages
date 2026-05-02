@@ -70,8 +70,12 @@ def url_to_group_name(url: str) -> str:
     return url.split('/')[-1].replace('.git', '')
 
 
-def generate_fetcher(url: str, commit: str) -> str:
-    """Generate the Nix fetcher expression for a URL."""
+def generate_fetcher(url: str, commit: str | None, ref: str | None) -> str:
+    """Generate the Nix fetcher expression for a URL.
+
+    `commit` is the actual commit hash (if available).
+    `ref` is the git ref/branch name (e.g. from `latest:main` in HEAD.toml).
+    """
     if 'github.com' in url:
         owner_repo = url.replace('https://github.com/', '')
         parts = owner_repo.split('/')
@@ -95,11 +99,25 @@ def generate_fetcher(url: str, commit: str) -> str:
     hash = "sha256-AAAA";  # TODO: run ./scripts/update-hashes.sh
   }}'''
     else:
-        # Generic git fetcher - use ref for branch and rev for commit
-        return f'''builtins.fetchGit {{
+        # Generic git fetcher
+        if commit:
+            if ref:
+                return f'''builtins.fetchGit {{
     url = "{url}";
-    ref = "master";
+    ref = "{ref}";
     rev = "{commit}";
+    allRefs = true;
+  }}'''
+            else:
+                return f'''builtins.fetchGit {{
+    url = "{url}";
+    rev = "{commit}";
+    allRefs = true;
+  }}'''
+        else:
+            return f'''builtins.fetchGit {{
+    url = "{url}";
+    ref = "{ref}";
     allRefs = true;
   }}'''
 
@@ -111,29 +129,35 @@ def generate_package_file(group_name: str, pkgs: list, packages_dir: Path) -> No
     
     first = pkgs[0]
     url = first['url']
-    commit = first.get('commit', 'main')
-    
-    # Handle "latest:" prefix in commit
+    raw_commit = first.get('commit', 'main')
+
+    # Extract ref (branch) and commit from HEAD.toml commit field.
+    # Format can be:
+    #   - "abc123..." (actual commit hash)
+    #   - "latest:main" (branch name, commit hash unknown)
+    commit = raw_commit
+    ref = None
     if commit.startswith('latest:'):
-        commit = commit.replace('latest:', '')
-    
+        ref = commit.replace('latest:', '')
+        commit = None  # No commit hash available yet
+
     lines = [f"# Auto-generated from idris2-pack-db HEAD.toml"]
     lines.append(f"# Source: {url}")
     lines.append("")
     lines.append("{ pkgs, buildIdrisWithDocs }:")
     lines.append("")
-    
+
     if len(pkgs) == 1:
         # Single package
         pkg = pkgs[0]
         pname = pkg['name']
         ipkg = pkg.get('ipkg', f'{pname}.ipkg')
         notice = pkg.get('notice', '')
-        
+
         if notice:
             lines.append(f"# NOTE: {notice}")
-        
-        fetcher = generate_fetcher(url, commit)
+
+        fetcher = generate_fetcher(url, commit, ref)
         lines.append(f'''buildIdrisWithDocs {{
   pname = "{pname}";
   ipkg = "{ipkg}";
@@ -143,7 +167,7 @@ def generate_package_file(group_name: str, pkgs: list, packages_dir: Path) -> No
     else:
         # Multiple packages from same source
         lines.append("let")
-        fetcher = generate_fetcher(url, commit)
+        fetcher = generate_fetcher(url, commit, ref)
         lines.append(f"  src = {fetcher};")
         lines.append("in")
         lines.append("{")
