@@ -78,11 +78,7 @@ runMkdoc config = do
   Right () <- coreLift $ mkdirAll outDir
     | Left err => throw $ InternalError ("Cannot create output directory: " ++ show err)
 
-  let docDir = outDir </> "docs"
-  Right () <- coreLift $ mkdirAll docDir
-    | Left err => throw $ InternalError ("Cannot create docs directory: " ++ show err)
-
-  traverse_ (processModuleAndWrite pkg docDir) (modules pkg)
+  traverse_ (processModuleAndWrite pkg outDir) (modules pkg)
 
   syn <- get Syn
   let index = renderDocIndex pkg (modDocstrings syn)

@@ -168,8 +168,10 @@
 
         # Import registry packages
         pkgDb = import ./registry/packages.nix { inherit pkgs idris2 idris2-mkdoc-md; };
-        registryLibPkgs = builtins.mapAttrs (name: pkg: pkg.libPkg)
-          (pkgs.lib.filterAttrs (n: v: builtins.isAttrs v && v ? libPkg) pkgDb.libs);
+        registryPkgs = pkgs.lib.filterAttrs (n: v: builtins.isAttrs v && v ? libPkg) pkgDb.libs;
+        registryLibPkgs = builtins.mapAttrs (name: pkg: pkg.libPkg) registryPkgs;
+        registryDocPkgs = builtins.mapAttrs (name: pkg: pkg.docs)
+          (pkgs.lib.mapAttrs' (name: pkg: pkgs.lib.nameValuePair "${name}-docs" pkg) registryPkgs);
 
         # Propagate all transitive dependencies like nixpkgs buildIdris does
         propagateLibs = libs: pkgs.lib.unique (
@@ -185,7 +187,7 @@
           idrisGL = idrisGL-pkg.libPkg;
           idrisGL-docs = idrisGL-pkg.docs;
           default = idris2-mkdoc-md;
-        } // registryLibPkgs;
+        } // registryLibPkgs // registryDocPkgs;
 
         lib = {
           withPackages = selector:
