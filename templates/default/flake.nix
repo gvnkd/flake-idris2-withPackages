@@ -63,13 +63,28 @@
 
           show_doc() {
             local pkg="$1"
+            local module="''${2:-}"
             local index="$DOCS/$pkg/index.md"
-            if [ -f "$index" ]; then
-              cat "$index"
-            else
-              echo "No docs found for '$pkg'" >&2
+
+            if [ ! -f "$index" ]; then
+              echo "No docs found for package '$pkg'" >&2
               echo "Run 'doc list' to see available packages" >&2
               exit 1
+            fi
+
+            if [ -n "$module" ]; then
+              # Module path: Data.Compress.CRC -> Data.Compress.CRC.md
+              local mod_file="$DOCS/$pkg/''${module}.md"
+              if [ -f "$mod_file" ]; then
+                cat "$mod_file"
+              else
+                echo "No module docs found for '$module' in package '$pkg'" >&2
+                echo "Available modules:" >&2
+                ls "$DOCS/$pkg/" | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
+                exit 1
+              fi
+            else
+              cat "$index"
             fi
           }
 
@@ -79,13 +94,13 @@
               ;;
             show)
               if [ -z "''${2:-}" ]; then
-                echo "Usage: doc show <package>" >&2
+                echo "Usage: doc show <package> [module]" >&2
                 exit 1
               fi
-              show_doc "$2"
+              show_doc "$2" "''${3:-}"
               ;;
             *)
-              echo "Usage: doc list | doc show <package>" >&2
+              echo "Usage: doc list | doc show <package> [module]" >&2
               exit 1
               ;;
           esac
@@ -137,9 +152,10 @@
             echo "  idris2-mkdoc-md -o ./my-docs template.ipkg"
             echo ""
             echo "Browse dependency docs:"
-            echo "  doc list           # list available package docs"
-            echo "  doc show json      # view json package docs"
-            echo "  ls ./docs/json/    # or browse the ./docs/ symlink"
+            echo "  doc list                     # list available package docs"
+            echo "  doc show json                # view json package index"
+            echo "  doc show http Data.Compress.CRC  # view specific module docs"
+            echo "  ls ./docs/json/              # or browse the ./docs/ symlink"
             echo ""
             echo "REPL with packages:"
             echo "  rlwrap idris2"
