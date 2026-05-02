@@ -1,5 +1,5 @@
 {
-  description = "Idris2 project template";
+  description = "Idris2 project template with registry packages and docs generation";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -13,19 +13,29 @@
         pkgs = nixpkgs.legacyPackages.${system};
         idris2 = idris2-withpkgs.inputs.idris2-src.packages.${system}.idris2;
 
-        # Select registry packages to use
-        selectedLibs = with idris2-withpkgs.packages.${system}; [ json ];
+        # Select registry packages to use as dependencies.
+        # Available packages: containers, algebra, array, json, json-simple,
+        # async, bytestring, hedgehog, parser, and 150+ more.
+        idrisLibraries = with idris2-withpkgs.packages.${system}; [
+          json
+          # containers
+          # algebra
+          # array
+          # bytestring
+        ];
 
-        # Wrapped idris2 with packages available in devShell
+        # Wrapped idris2 with all selected packages available in devShell
         idris2Wrapped = idris2-withpkgs.lib.${system}.withPackages (p: [
           p.json
+          # p.containers
+          # p.algebra
         ]);
 
         pkg = pkgs.idris2Packages.buildIdris {
           src = ./.;
           ipkgName = "template";
           version = "0.1.0";
-          idrisLibraries = selectedLibs;
+          inherit idrisLibraries;
         };
       in
       {
@@ -38,17 +48,30 @@
           buildInputs = [
             idris2Wrapped
             pkgs.rlwrap
+            # idris2-mkdoc-md is available from the registry flake
+            idris2-withpkgs.packages.${system}.idris2-mkdoc-md
           ];
 
           shellHook = ''
             echo "Idris2 project shell"
-            echo "  Build: idris2 --build template.ipkg"
-            echo "  Run:   ./build/exec/template"
             echo ""
-            echo "To add more registry dependencies, edit flake.nix and add to the list:"
-            echo "  p.json-simple"
-            echo "  p.containers"
-            echo "  p.algebra"
+            echo "Build:"
+            echo "  idris2 --build template.ipkg"
+            echo "  ./build/exec/template"
+            echo ""
+            echo "Add dependencies:"
+            echo "  1. Edit flake.nix, add to selectedLibs: p.containers p.algebra"
+            echo "  2. Edit template.ipkg, add to depends: containers, algebra"
+            echo "  3. Run: nix develop"
+            echo ""
+            echo "Generate docs:"
+            echo "  idris2-mkdoc-md -o ./docs template.ipkg"
+            echo ""
+            echo "REPL with packages:"
+            echo "  rlwrap idris2"
+            echo ""
+            echo "Available packages:"
+            echo "  $(idris2 --list-packages | grep -v '^  ' | head -20 | tr '\n' ' ')"
           '';
         };
       }
