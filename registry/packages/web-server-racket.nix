@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "0d67bc5ef7c0ae112d6a61dbd011944cdfb15ccc";
     allRefs = true;
   };
-  deps = [ ];  # TODO: Add Idris dependencies
+  deps = [ "array" "http2" "pg" "racket-tcp" "utf8" ];  # TODO: Add Idris dependencies
 }

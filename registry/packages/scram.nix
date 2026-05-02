@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "f02823727535bbe673bf4bd40f7a5d1fefc3923e";
     allRefs = true;
   };
-  deps = [ ];  # TODO: Add Idris dependencies
+  deps = [ "base64" "hmac" "string-search" "utf8" ];  # TODO: Add Idris dependencies
 }

@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "ce3e72a7843c6c42b7b30d62699b675001fa1e6c";
     allRefs = true;
   };
-  deps = [ "cont" "buf-conn" "pg-types" ];
+  deps = [ "array" "buf-conn" "cont" "pg-types" "utf8" ];
 }

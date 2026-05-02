@@ -12,5 +12,5 @@ buildIdrisWithDocs {
     rev = "4d3d5546ead083ece2108d4089b50f1268cfdeee";
     allRefs = true;
   };
-  deps = [ ];  # TODO: Add Idris dependencies
+  deps = [ "array" "buf-conn" "cont" "hash" "pg-types" "scram" "sha" "utf8" ];  # TODO: Add Idris dependencies
 }
