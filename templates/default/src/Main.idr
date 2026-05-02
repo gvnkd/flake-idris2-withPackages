@@ -1,12 +1,13 @@
 module Main
 
-import JSON.Simple
-import Derive.ToJSON.Simple
-import Derive.FromJSON.Simple
+import JSON
+import JSON.Derive
+
+%language ElabReflection
 
 record Message where
   constructor MkMessage
-  putStrLn : String
+  text : String
 
 %runElab derive "Message" [ToJSON, FromJSON]
 

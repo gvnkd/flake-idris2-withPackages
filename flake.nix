@@ -166,6 +166,18 @@
           dontUseMesonConfigure = true;
         };
 
+        # Import registry packages
+        pkgDb = import ./registry/packages.nix { inherit pkgs idris2 idris2-mkdoc-md; };
+        registryLibPkgs = builtins.mapAttrs (name: pkg: pkg.libPkg)
+          (pkgs.lib.filterAttrs (n: v: builtins.isAttrs v && v ? libPkg) pkgDb.libs);
+
+        # Propagate all transitive dependencies like nixpkgs buildIdris does
+        propagateLibs = libs: pkgs.lib.unique (
+          pkgs.lib.concatMap (
+            nextLib: [ nextLib ] ++ (nextLib.propagatedIdrisLibraries or [ ])
+          ) libs
+        );
+
       in
       {
         packages = {
@@ -173,6 +185,24 @@
           idrisGL = idrisGL-pkg.libPkg;
           idrisGL-docs = idrisGL-pkg.docs;
           default = idris2-mkdoc-md;
+        } // registryLibPkgs;
+
+        lib = {
+          withPackages = selector:
+            let
+              selectedLibs = propagateLibs (selector registryLibPkgs);
+              libPaths = pkgs.lib.makeSearchPath libSuffix selectedLibs;
+              fullPackagePath = "${libPaths}:${idris2}/${idrName}";
+            in
+            pkgs.symlinkJoin {
+              name = "idris2-with-packages";
+              paths = [ idris2 ] ++ selectedLibs;
+              buildInputs = [ pkgs.makeWrapper ];
+              postBuild = ''
+                wrapProgram $out/bin/idris2 \
+                  --suffix IDRIS2_PACKAGE_PATH ':' "${fullPackagePath}"
+              '';
+            };
         };
 
         devShells.default = pkgs.mkShell {

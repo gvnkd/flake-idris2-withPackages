@@ -12,16 +12,20 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         idris2 = idris2-withpkgs.inputs.idris2-src.packages.${system}.idris2;
-        
-        idrisLibraries = [
-          idris2-withpkgs.packages.${system}.json-simple
-        ];
-        
+
+        # Select registry packages to use
+        selectedLibs = with idris2-withpkgs.packages.${system}; [ json ];
+
+        # Wrapped idris2 with packages available in devShell
+        idris2Wrapped = idris2-withpkgs.lib.${system}.withPackages (p: [
+          p.json
+        ]);
+
         pkg = pkgs.idris2Packages.buildIdris {
           src = ./.;
           ipkgName = "template";
           version = "0.1.0";
-          inherit idrisLibraries;
+          idrisLibraries = selectedLibs;
         };
       in
       {
@@ -32,7 +36,7 @@
 
         devShells.default = pkgs.mkShell {
           buildInputs = [
-            idris2
+            idris2Wrapped
             pkgs.rlwrap
           ];
 
@@ -41,8 +45,10 @@
             echo "  Build: idris2 --build template.ipkg"
             echo "  Run:   ./build/exec/template"
             echo ""
-            echo "To add more registry dependencies, edit flake.nix and add to idrisLibraries:"
-            echo "  inherit (idris2-withpkgs.packages.\${system}) containers json;"
+            echo "To add more registry dependencies, edit flake.nix and add to the list:"
+            echo "  p.json-simple"
+            echo "  p.containers"
+            echo "  p.algebra"
           '';
         };
       }
