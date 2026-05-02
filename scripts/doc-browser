@@ -20,7 +20,6 @@ if [ $# -gt 0 ] && [ "$1" != "list" ] && [ "$1" != "show" ]; then
 fi
 
 if [ -z "$DOCS" ] && [ $# -gt 0 ]; then
-  # Check if first arg after subcommand looks like a path
   case "$1" in
     list|show)
       ;;
@@ -38,42 +37,76 @@ if [ -z "$DOCS" ]; then
   exit 1
 fi
 
+# Detect if DOCS is a single package dir (has index.md directly)
+# or a collection of packages (has subdirs with index.md)
+is_single_package=false
+if [ -f "$DOCS/index.md" ]; then
+  is_single_package=true
+fi
+
 list_docs() {
-  echo "Available package documentation:"
-  echo ""
-  for dir in "$DOCS"/*; do
-    [ -d "$dir" ] || continue
-    name=$(basename "$dir")
-    index="$dir/index.md"
-    if [ -f "$index" ]; then
+  if [ "$is_single_package" = true ]; then
+    echo "Package documentation (single package view):"
+    echo ""
+    # List modules
+    for f in "$DOCS"/*.md; do
+      [ -f "$f" ] || continue
+      name=$(basename "$f" .md)
+      [ "$name" = "index" ] && continue
       echo "  $name"
-    fi
-  done
+    done
+  else
+    echo "Available package documentation:"
+    echo ""
+    for dir in "$DOCS"/*; do
+      [ -d "$dir" ] || continue
+      name=$(basename "$dir")
+      index="$dir/index.md"
+      if [ -f "$index" ]; then
+        echo "  $name"
+      fi
+    done
+  fi
 }
 
 show_doc() {
   local pkg="$1"
   local module="${2:-}"
-  local index="$DOCS/$pkg/index.md"
 
-  if [ ! -f "$index" ]; then
-    echo "No docs found for package '$pkg'" >&2
-    echo "Run 'doc-browser list' to see available packages" >&2
-    exit 1
-  fi
-
-  if [ -n "$module" ]; then
-    local mod_file="$DOCS/$pkg/${module}.md"
-    if [ -f "$mod_file" ]; then
-      cat "$mod_file"
-    else
-      echo "No module docs found for '$module' in package '$pkg'" >&2
-      echo "Available modules:" >&2
-      ls "$DOCS/$pkg/" | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
+  if [ "$is_single_package" = true ]; then
+    # Single package mode: pkg arg is actually a module name
+    if [ -n "$pkg" ] && [ "$pkg" != "index" ]; then
+      # User passed a module name directly
+      local mod_file="$DOCS/${pkg}.md"
+      if [ -f "$mod_file" ]; then
+        cat "$mod_file"
+        return
+      fi
+    fi
+    # Show index
+    cat "$DOCS/index.md"
+  else
+    # Collection mode: pkg is a package name
+    local index="$DOCS/$pkg/index.md"
+    if [ ! -f "$index" ]; then
+      echo "No docs found for package '$pkg'" >&2
+      echo "Run 'doc-browser list' to see available packages" >&2
       exit 1
     fi
-  else
-    cat "$index"
+
+    if [ -n "$module" ]; then
+      local mod_file="$DOCS/$pkg/${module}.md"
+      if [ -f "$mod_file" ]; then
+        cat "$mod_file"
+      else
+        echo "No module docs found for '$module' in package '$pkg'" >&2
+        echo "Available modules:" >&2
+        ls "$DOCS/$pkg/" | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
+        exit 1
+      fi
+    else
+      cat "$index"
+    fi
   fi
 }
 
@@ -83,13 +116,18 @@ case "${1:-list}" in
     ;;
   show)
     if [ -z "${2:-}" ]; then
-      echo "Usage: doc-browser show <package> [module]" >&2
-      exit 1
+      if [ "$is_single_package" = true ]; then
+        show_doc "index"
+      else
+        echo "Usage: doc-browser show <package> [module]" >&2
+        exit 1
+      fi
+    else
+      show_doc "$2" "${3:-}"
     fi
-    show_doc "$2" "${3:-}"
     ;;
   *)
-    echo "Usage: doc-browser list | doc-browser show <package> [module]" >&2
+    echo "Usage: doc-browser list | doc-browser show [<package>] [module]" >&2
     exit 1
     ;;
 esac

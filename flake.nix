@@ -212,14 +212,109 @@
           ) libs
         );
 
+        # Standalone doc browser tool (use DOCS_PATH env var or pass path as arg)
+        doc-browser = pkgs.runCommand "doc-browser" {} ''
+          mkdir -p $out/bin
+          cp ${./scripts/doc-browser} $out/bin/doc-browser
+          chmod +x $out/bin/doc-browser
+        '';
+
+        # Create docs + browser bundles for each package
+        docsWithBrowser = builtins.mapAttrs (name: pkg:
+          let
+            pkgDocsPath = "${pkg.docs}/share/doc/${name}";
+          in
+          pkgs.symlinkJoin {
+            name = "${name}-docs-with-browser";
+            paths = [ doc-browser ];
+            buildInputs = [ pkgs.makeWrapper ];
+            postBuild = ''
+              # Wrap doc-browser with this package's docs path
+              wrapProgram $out/bin/doc-browser \
+                --set DOCS_PATH "${pkgDocsPath}"
+              
+              # Create alias
+              ln -s $out/bin/doc-browser $out/bin/${name}-doc
+              
+              # Symlink the raw docs
+              mkdir -p $out/share/doc
+              ln -s ${pkg.docs}/share/doc/${name} $out/share/doc/${name}
+            '';
+          }
+        ) registryPkgs;
+        
+        # Rename keys to avoid collision with lib packages
+        docsWithBrowserNamed = builtins.mapAttrs
+          (name: drv: drv)
+          (pkgs.lib.mapAttrs'
+            (name: pkg: pkgs.lib.nameValuePair "${name}-docs-with-browser"
+              (docsWithBrowser.${name}))
+            registryPkgs
+          );
+
+        # Curated subset of packages known to build successfully.
+        # Used for the all-docs bundle to avoid fragile packages with
+        # stale hashes or network issues.
+        curatedPkgNames = [
+          "algebra"
+          "barbies"
+          "bytestring"
+          "containers"
+          "dtypes"
+          "eff"
+          "elab-util"
+          "filepath"
+          "finite"
+          "freer"
+          "graph"
+          "hashable"
+          "indexed"
+          "json"
+          "parser"
+          "pretty-show"
+          "quantifiers-extra"
+          "refined"
+          "sop"
+          "xml"
+        ];
+        curatedPkgs = pkgs.lib.genAttrs curatedPkgNames (name: registryPkgs.${name});
+
+        # Bundle curated package docs into a single collection directory
+        all-docs = pkgs.runCommand "all-docs" {
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+        } (
+          let
+            linkCommands = pkgs.lib.mapAttrsToList (name: pkg: ''
+              if [ -d ${pkg.docs}/share/doc ]; then
+                for dir in ${pkg.docs}/share/doc/*; do
+                  if [ -d "$dir" ]; then
+                    ln -s "$dir" $out/share/doc/${name}
+                  fi
+                done
+              fi
+            '') curatedPkgs;
+          in
+          ''
+            mkdir -p $out/share/doc
+            ${pkgs.lib.concatStringsSep "\n" linkCommands}
+
+            mkdir -p $out/bin
+            cp ${doc-browser}/bin/doc-browser $out/bin/
+            chmod +x $out/bin/doc-browser
+
+            wrapProgram $out/bin/doc-browser \
+              --set DOCS_PATH "$out/share/doc"
+          ''
+        );
+
       in
       {
         packages = {
-          inherit idris2-mkdoc-md generate-registry;
+          inherit idris2-mkdoc-md generate-registry doc-browser all-docs;
           idrisGL = idrisGL-pkg.libPkg;
           idrisGL-docs = idrisGL-pkg.docs;
           default = idris2-mkdoc-md;
-        } // registryLibPkgs // registryDocPkgs;
+        } // registryLibPkgs // registryDocPkgs // docsWithBrowserNamed;
 
         lib = {
           withPackages = selector:

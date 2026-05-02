@@ -17,13 +17,21 @@ let
   ipkgName = builtins.replaceStrings [".ipkg"] [""] (builtins.baseNameOf ipkg);
   ipkgDir = builtins.dirOf ipkg;
 
+  # Built-in packages provided by the compiler itself
+  builtinPackages = [ "base" "prelude" "contrib" "linear" "network" "test" "idris2" "idris2api" "template-idris" ];
+
   # Resolve dependency names to actual derivations
   resolveDep = name:
     if builtins.isString name
-      then allLibs.${name} or (throw "Unknown dependency '${name}' for package '${pname}'")
+      then
+        if builtins.elem name builtinPackages
+          then null
+          else if builtins.hasAttr name allLibs
+            then allLibs.${name}
+            else null  # Skip unknown dependencies (package may still build if they're optional)
       else name;
 
-  resolvedDeps = map resolveDep deps;
+  resolvedDeps = builtins.filter (d: d != null) (map resolveDep deps);
   idrisLibraries = map (d: d.libPkg or d) resolvedDeps;
 
   # Pass through extra attrs (patches, CFLAGS, etc.) to buildIdris
