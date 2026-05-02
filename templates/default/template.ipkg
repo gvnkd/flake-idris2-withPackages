@@ -6,4 +6,6 @@ main = Main
 
 executable = template
 
+depends = json-simple
+
 sourcedir = "src"

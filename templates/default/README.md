@@ -1,12 +1,12 @@
 # Idris2 Project Template
 
-A minimal skeleton for Idris2 projects with Nix flake support.
+A minimal Idris2 project with Nix flake support, demonstrating JSON encoding via the registry.
 
 ## Quick Start
 
 ```bash
 # Create a new project from this template
-nix init --template github:gvnkd/flake-idris2-withPackages#default my-project
+nix flake init --template github:gvnkd/flake-idris2-withPackages#default
 cd my-project
 
 # Enter dev shell
@@ -17,6 +17,22 @@ idris2 --build template.ipkg
 
 # Run
 ./build/exec/template
+# Output: {"putStrLn":"Hello from Idris2"}
+```
+
+## What this template demonstrates
+
+The example defines a `Message` record, derives `ToJSON` and `FromJSON` instances via elaborator reflection, and prints the encoded JSON:
+
+```idris
+record Message where
+  constructor MkMessage
+  putStrLn : String
+
+%runElab derive "Message" [ToJSON, FromJSON]
+
+main : IO ()
+main = putStrLn $ encode $ MkMessage "Hello from Idris2"
 ```
 
 ## Project Structure
@@ -26,8 +42,9 @@ idris2 --build template.ipkg
 ├── flake.nix      # Nix flake with devShell and package build
 ├── template.ipkg  # Idris2 package manifest
 ├── src/
-│   └── Main.idr   # Entry point
-└── README.md      # This file
+│   └── Main.idr   # Entry point with JSON example
+├── README.md      # This file
+└── .gitignore     # Ignores build artifacts, result, direnv
 ```
 
 ## Adding Dependencies
@@ -36,7 +53,7 @@ Edit `flake.nix` and add registry packages to `idrisLibraries`:
 
 ```nix
 idrisLibraries = [
-  idris2-withpkgs.packages.${system}.json
+  idris2-withpkgs.packages.${system}.json-simple
   idris2-withpkgs.packages.${system}.containers
 ];
 ```
@@ -44,7 +61,7 @@ idrisLibraries = [
 Then add the dependency to `template.ipkg`:
 
 ```
-depends = json
+depends = json-simple
         , containers
 ```
 

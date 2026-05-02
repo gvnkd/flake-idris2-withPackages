@@ -13,10 +13,9 @@
         pkgs = nixpkgs.legacyPackages.${system};
         idris2 = idris2-withpkgs.inputs.idris2-src.packages.${system}.idris2;
         
-        # Registry packages available as idris2-withpkgs.packages.${system}.<name>
-        # Example: inherit (idris2-withpkgs.packages.${system}) json containers;
-        
-        idrisLibraries = [ ];
+        idrisLibraries = [
+          idris2-withpkgs.packages.${system}.json-simple
+        ];
         
         pkg = pkgs.idris2Packages.buildIdris {
           src = ./.;
@@ -42,8 +41,8 @@
             echo "  Build: idris2 --build template.ipkg"
             echo "  Run:   ./build/exec/template"
             echo ""
-            echo "To add registry dependencies, edit flake.nix and add to idrisLibraries:"
-            echo "  inherit (idris2-withpkgs.packages.\${system}) json containers;"
+            echo "To add more registry dependencies, edit flake.nix and add to idrisLibraries:"
+            echo "  inherit (idris2-withpkgs.packages.\${system}) containers json;"
           '';
         };
       }

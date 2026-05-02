@@ -1,0 +1,31 @@
+# Idris2 build artifacts
+build/
+*.ttc
+*.ttm
+*.so
+
+# Nix
+result
+result-*
+*.drv
+
+# direnv
+.direnv/
+.envrc
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Generated docs (can be regenerated)
+generated/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store

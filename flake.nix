@@ -10,9 +10,10 @@
 
   outputs =
     { self, nixpkgs, flake-utils, idris2-src }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
+    let
+      systemOutputs = flake-utils.lib.eachDefaultSystem (
+        system:
+        let
         pkgs = nixpkgs.legacyPackages.${system};
         idris2 = idris2-src.packages.${system}.idris2;
         idris2Api = idris2-src.packages.${system}.idris2Api;
@@ -187,4 +188,11 @@
         };
       }
     );
+    in
+    systemOutputs // {
+      templates.default = {
+        path = ./templates/default;
+        description = "Minimal Idris2 project with Nix flake support";
+      };
+    };
 }
