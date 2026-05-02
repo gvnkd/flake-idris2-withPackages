@@ -133,13 +133,18 @@ def generate_package_file(group_name: str, pkgs: list, packages_dir: Path) -> No
 
     # Extract ref (branch) and commit from HEAD.toml commit field.
     # Format can be:
-    #   - "abc123..." (actual commit hash)
-    #   - "latest:main" (branch name, commit hash unknown)
+    #   - "abc123..." (actual 40-char commit hash)
+    #   - "latest:main" (branch name with prefix)
+    #   - "master" / "main" / "trunk" (branch name without prefix)
     commit = raw_commit
     ref = None
     if commit.startswith('latest:'):
         ref = commit.replace('latest:', '')
-        commit = None  # No commit hash available yet
+        commit = None
+    elif len(commit) != 40 or not all(c in '0123456789abcdef' for c in commit):
+        # Not a full commit hash, treat as branch/ref name
+        ref = commit
+        commit = None
 
     lines = [f"# Auto-generated from idris2-pack-db HEAD.toml"]
     lines.append(f"# Source: {url}")
@@ -198,12 +203,14 @@ def generate_package_file(group_name: str, pkgs: list, packages_dir: Path) -> No
 
 
 def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <path-to-HEAD.toml>")
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        print(f"Usage: {sys.argv[0]} <path-to-HEAD.toml> [output-dir]")
         print("")
         print("Example:")
         print("  nix run nixpkgs#python3 -- scripts/generate-from-head.py \\")
         print("    /nix/store/...-idris2-pack-db/collections/HEAD.toml")
+        print("  nix run nixpkgs#python3 -- scripts/generate-from-head.py \\")
+        print("    /nix/store/...-idris2-pack-db/collections/HEAD.toml ./registry/packages")
         sys.exit(1)
     
     head_toml_path = Path(sys.argv[1])
@@ -238,18 +245,15 @@ def main():
         group_name = url_to_group_name(url)
         groups[group_name].append(pkg)
     
-    # Create packages directory
-    registry_dir = Path(__file__).parent.parent
-    packages_dir = registry_dir / "packages"
+    # Determine output directory
+    if len(sys.argv) >= 3:
+        packages_dir = Path(sys.argv[2])
+    else:
+        registry_dir = Path(__file__).parent.parent
+        packages_dir = registry_dir / "packages"
     packages_dir.mkdir(exist_ok=True)
     
-    # Backup existing files
-    for f in packages_dir.glob("*.nix"):
-        backup = f.with_suffix('.nix.bak')
-        f.rename(backup)
-        print(f"Backed up: {f} -> {backup}")
-    
-    # Generate files
+    # Generate files (overwrite existing, leave others untouched)
     for group_name, pkgs in sorted(groups.items()):
         generate_package_file(group_name, pkgs, packages_dir)
     

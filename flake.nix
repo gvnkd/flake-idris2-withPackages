@@ -6,15 +6,18 @@
     flake-utils.url = "github:numtide/flake-utils";
     idris2-src.url = "github:idris-lang/Idris2";
     idris2-src.inputs.nixpkgs.follows = "nixpkgs";
+    idris2-pack-db.url = "github:stefan-hoeck/idris2-pack-db";
+    idris2-pack-db.flake = false;
   };
 
   outputs =
-    { self, nixpkgs, flake-utils, idris2-src }:
+    { self, nixpkgs, flake-utils, idris2-src, idris2-pack-db }:
     let
       systemOutputs = flake-utils.lib.eachDefaultSystem (
         system:
         let
         pkgs = nixpkgs.legacyPackages.${system};
+        headToml = "${idris2-pack-db}/collections/HEAD.toml";
         idris2 = idris2-src.packages.${system}.idris2;
         idris2Api = idris2-src.packages.${system}.idris2Api;
         idrisVersion = idris2.version;
@@ -166,6 +169,35 @@
           dontUseMesonConfigure = true;
         };
 
+        # Script to regenerate registry packages from upstream HEAD.toml
+        generate-registry = pkgs.writeShellScriptBin "generate-registry" ''
+          set -euo pipefail
+
+          # Find the project root (directory containing flake.nix)
+          if [ -f "flake.nix" ]; then
+            PROJECT_ROOT="$(pwd)"
+          elif [ -f "../flake.nix" ]; then
+            PROJECT_ROOT="$(cd .. && pwd)"
+          elif git rev-parse --show-toplevel 2>/dev/null; then
+            PROJECT_ROOT="$(git rev-parse --show-toplevel)"
+          else
+            echo "Error: Cannot find project root (flake.nix). Please run from the project directory."
+            exit 1
+          fi
+
+          cd "$PROJECT_ROOT"
+          echo "Generating registry packages from ${headToml}..."
+          ${pkgs.python3}/bin/python3 \
+            ${./registry/scripts/generate-from-head.py} \
+            "${headToml}" \
+            "$PROJECT_ROOT/registry/packages"
+          echo ""
+          echo "Done! Next steps:"
+          echo "  1. Run ./registry/scripts/update-hashes.sh  (for GitHub/GitLab packages)"
+          echo "  2. Run ./registry/scripts/pin-fetchgit-revs.sh  (for git.sr.ht / codeberg packages)"
+          echo "  3. Review and fix deps = [ ] in generated files"
+        '';
+
         # Import registry packages
         pkgDb = import ./registry/packages.nix { inherit pkgs idris2 idris2-mkdoc-md; };
         registryPkgs = pkgs.lib.filterAttrs (n: v: builtins.isAttrs v && v ? libPkg) pkgDb.libs;
@@ -183,7 +215,7 @@
       in
       {
         packages = {
-          inherit idris2-mkdoc-md;
+          inherit idris2-mkdoc-md generate-registry;
           idrisGL = idrisGL-pkg.libPkg;
           idrisGL-docs = idrisGL-pkg.docs;
           default = idris2-mkdoc-md;
@@ -212,10 +244,13 @@
             idris2
             pkgs.rlwrap
             idris2-mkdoc-md
+            generate-registry
           ];
 
           shellHook = ''
             export IDRIS2_PACKAGE_PATH="${idris2}/${idrName}:${idris2Api}/${libSuffix}''${IDRIS2_PACKAGE_PATH:+:$IDRIS2_PACKAGE_PATH}"
+            echo "Available commands:"
+            echo "  generate-registry  - Regenerate packages from upstream idris2-pack-db"
           '';
         };
       }

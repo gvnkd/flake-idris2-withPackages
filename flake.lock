@@ -52,6 +52,22 @@
         "type": "github"
       }
     },
+    "idris2-pack-db": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777677022,
+        "narHash": "sha256-nuoPf2c/c8v21YdXdEEcBffgMiAIIEbjK0py37fpfio=",
+        "owner": "stefan-hoeck",
+        "repo": "idris2-pack-db",
+        "rev": "2d9c7428c50718de6b7af213fbd9d9dcc8c07b2f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "stefan-hoeck",
+        "repo": "idris2-pack-db",
+        "type": "github"
+      }
+    },
     "idris2-src": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -93,6 +109,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "idris2-pack-db": "idris2-pack-db",
         "idris2-src": "idris2-src",
         "nixpkgs": "nixpkgs"
       }
