@@ -129,6 +129,9 @@
           in
           {
             inherit libPkg;
+            # Expose the executable derivation (will only build successfully if
+            # the ipkg defines a `main` / `executable`)
+            executable = basePkg.executable;
             
             docs = pkgs.stdenv.mkDerivation (docPatchAttrs // {
               name = "${ipkgName}-docs";
@@ -232,7 +235,7 @@
         '';
 
         # Import registry packages
-        pkgDb = import ./registry/packages.nix { inherit pkgs idris2 idris2-mkdoc-md; };
+        pkgDb = import ./registry/packages.nix { inherit pkgs idris2 idris2-mkdoc-md; idris2api = idris2Api; };
         registryPkgs = pkgs.lib.filterAttrs (n: v: builtins.isAttrs v && v ? libPkg) pkgDb.libs;
         registryLibPkgs = builtins.mapAttrs (name: pkg: pkg.libPkg) registryPkgs;
         registryDocPkgs = builtins.mapAttrs (name: pkg: pkg.docs)
@@ -347,7 +350,12 @@
           idrisGL = idrisGL-pkg.libPkg;
           idrisGL-docs = idrisGL-pkg.docs;
           default = idris2-mkdoc-md;
-        } // registryLibPkgs // registryDocPkgs // docsWithBrowserNamed;
+        } // registryLibPkgs // registryDocPkgs // docsWithBrowserNamed // {
+          # Custom package executables (override libPkg entries)
+          fmt = registryPkgs.fmt.executable;
+          taiga-cli = registryPkgs.taiga-cli.executable;
+          optparse-applicative-example = registryPkgs.optparse-applicative-example.executable;
+        };
 
         lib = {
           withPackages = selector:

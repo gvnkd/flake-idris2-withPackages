@@ -1,4 +1,4 @@
-{ pkgs, idris2, idris2-mkdoc-md }:
+{ pkgs, idris2, idris2-mkdoc-md, idris2api ? null }:
 let
   # Read all .nix files in packages/
   packageFiles = builtins.attrNames (builtins.readDir ./packages);
@@ -26,9 +26,12 @@ let
             then { ${result.pname or name} = result; }
             else result;
       
-      allPackages = builtins.foldl' (acc: file: acc // (importPackageFile file)) {} nixFiles;
+      registryPackages = builtins.foldl' (acc: file: acc // (importPackageFile file)) {} nixFiles;
+
+      # Import custom packages (gvnkd's personal packages)
+      customPackages = import ./custom-packages.nix { inherit pkgs buildIdrisWithDocs; };
     in
-      allPackages
+      registryPackages // customPackages // (if idris2api != null then { idris2 = idris2api; } else {})
   );
 in
 {

@@ -22,7 +22,7 @@ let
   ipkgDir = builtins.dirOf ipkg;
 
   # Built-in packages provided by the compiler itself
-  builtinPackages = [ "base" "prelude" "contrib" "linear" "network" "test" "idris2" "idris2api" "template-idris" ];
+  builtinPackages = [ "base" "prelude" "contrib" "linear" "network" "test" "idris2api" "template-idris" ];
 
   # Resolve dependency names to actual derivations
   resolveDep = name:
@@ -94,6 +94,9 @@ in
 {
   inherit libPkg deps;
   pname = pname;
+  # Expose the executable derivation (will only build successfully if the
+  # ipkg defines a `main` / `executable`)
+  executable = basePkg.executable;
 
   docs = pkgs.stdenv.mkDerivation (docPatchAttrs // {
     name = "${pname}-docs";
