@@ -25,6 +25,11 @@ idris2 --build idris2-mkdoc-md.ipkg
 cd registry
 bash scripts/update-hashes.sh all    # Fetches all sha256 hashes (use your GH creds)
 
+# --- Build custom executables ---
+nix build .#fmt                          # Idris2 source code formatter
+nix build .#taiga-cli                    # Taiga project management CLI
+nix build .#optparse-applicative-example # CLI parser demo
+
 # --- Add registry deps to your project ---
 # In your project's flake.nix:
 idrisLibraries = [ idris2-withpkgs.packages.${system}.json ];
@@ -110,6 +115,25 @@ When `async` declares `deps = [ "array" "containers" "elin" "quantifiers-extra" 
 
 Built-in packages (`base`, `prelude`, `contrib`, `linear`, `network`, `test`) are provided by the Idris2 compiler and are excluded from `deps` automatically.
 
+### Custom Packages
+
+In addition to the auto-generated registry from `idris2-pack-db`, the flake maintains a set of custom packages in `registry/custom-packages.nix`:
+
+| Package | Type | Description |
+|---------|------|-------------|
+| `fmt` | Executable | Source code formatter for Idris 2 |
+| `optparse-applicative` | Library | Applicative CLI option parser |
+| `optparse-applicative-example` | Executable | Demo app for optparse-applicative |
+| `taiga-cli` | Executable | Taiga project management CLI tool |
+
+These are built with the same `buildIdrisWithDocs` infrastructure and participate in dependency resolution just like auto-generated packages. To build:
+
+```bash
+nix build .#fmt
+nix build .#taiga-cli
+nix build .#optparse-applicative-example
+```
+
 ## Building the Docs Tool
 
 ```bash
@@ -154,11 +178,20 @@ nix build .#all-docs
 ./result/bin/doc-browser show json         # View json index
 ./result/bin/doc-browser show json JSON.Encoder  # View specific module
 
+# Build custom executables
+nix build .#fmt                          # Source code formatter
+nix build .#taiga-cli                    # Taiga CLI tool
+nix build .#optparse-applicative-example # Demo CLI app
+
 # Enter a shell with all registry libraries available
 nix develop
 ```
 
 ### Adding a New Package to the Registry
+
+There are two ways to add packages:
+
+**Option 1: Auto-generated from upstream (`idris2-pack-db`)**
 
 1. Check if it's in [idris2-pack-db](https://raw.githubusercontent.com/stefan-hoeck/idris2-pack-db/main/collections/HEAD.toml):
    ```bash
@@ -166,33 +199,52 @@ nix develop
    nix run nixpkgs#python3 -- scripts/generate-from-head.py /tmp/HEAD.toml
    ```
 
-2. If it's a one-off package, create `registry/packages/<name>.nix`:
-   ```nix
-   { pkgs, buildIdrisWithDocs }:
-
-   buildIdrisWithDocs {
-     pname = "mylib";
-     ipkg = "mylib.ipkg";
-     src = pkgs.fetchFromGitHub {
-       owner = "foo";
-       repo = "idris2-mylib";
-       rev = "main";
-       hash = "sha256-AAAA";  # placeholder
-     };
-     deps = [ "base-dep" "other-dep" ];
-   }
-   ```
-
-3. Fetch the hash:
+2. Fetch the hash:
    ```bash
    bash scripts/update-hashes.sh mylib
    ```
 
-4. Extract dependencies from its `.ipkg`:
+3. Extract dependencies from its `.ipkg`:
    ```bash
    nix run nixpkgs#python3 -- scripts/extract-all-deps.py
    nix run nixpkgs#python3 -- scripts/populate-deps.py
    ```
+
+**Option 2: Custom packages (`registry/custom-packages.nix`)**
+
+For personal projects, packages not in `idris2-pack-db`, or executable applications, add them to `registry/custom-packages.nix` instead of the auto-generated `packages/` directory:
+
+```nix
+{ pkgs, buildIdrisWithDocs }:
+let
+  my-src = pkgs.fetchFromGitHub {
+    owner = "myuser";
+    repo = "idris2-mypkg";
+    rev = "main";
+    hash = "sha256-AAAA";  # placeholder — fetch real hash
+  };
+in
+{
+  mypkg = buildIdrisWithDocs {
+    pname = "mypkg";
+    ipkg = "mypkg.ipkg";
+    src = my-src;
+    deps = [ "json" "containers" ];
+  };
+
+  mypkg-app = buildIdrisWithDocs {
+    pname = "mypkg-app";
+    ipkg = "app.ipkg";
+    src = my-src;
+    deps = [ "mypkg" ];
+  };
+}
+```
+
+Custom packages are automatically merged into the registry and exposed as flake outputs. The `buildIdrisWithDocs` helper provides three outputs per package:
+- `libPkg` — the library (for use as a dependency)
+- `executable` — the compiled binary (if the `.ipkg` defines one)
+- `docs` — generated Markdown documentation
 
 ## Using the Project Template
 
@@ -280,14 +332,16 @@ sourcedir = "src"
 
 - [x] Core docs generator (typecheck → markdown)
 - [x] Nix flake with `buildIdrisWithDocs` wrapper
-- [x] Registry with 165+ packages
+- [x] Registry with 165+ auto-generated packages from `idris2-pack-db`
+- [x] Custom packages set (`registry/custom-packages.nix`) for personal/executable packages
+- [x] Executable exposure — build and run CLI tools from the registry
 - [x] Automatic dependency extraction from `.ipkg` files
 - [x] Recursive transitive dependency resolution
 - [x] Subdirectory `.ipkg` support (e.g. `core/ilex-core.ipkg`)
 - [x] Built-in package filtering (`base`, `prelude`, `contrib`, `linear`, `network`, `test`)
 - [x] Broken package handling for unhashable sources
 - [x] Flake template for new projects
-- [x] Verified builds: `algebra`, `array`, `containers`, `hashable`, `json`, `hedgehog`, `async`, `ilex-core`
+- [x] Verified builds: `algebra`, `array`, `containers`, `hashable`, `json`, `hedgehog`, `async`, `ilex-core`, `fmt`, `taiga-cli`
 
 ## Development
 
