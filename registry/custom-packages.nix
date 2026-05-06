@@ -31,6 +31,10 @@ in
     ipkg = "idris2-fmt.ipkg";
     src = fmt-src;
     deps = [ "prettier" "idris2" "optparse-applicative" ];
+    postPatch = ''
+      # Version is auto-generated from git tags but fetchFromGitHub strips git metadata
+      sed -i 's/versionString = "unknown"/versionString = "0.11.1"/' src/IdrisFmt/Version.idr
+    '';
   };
 
   # Applicative CLI option parser library
