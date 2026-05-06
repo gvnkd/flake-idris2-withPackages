@@ -6,8 +6,8 @@ let
   fmt-src = pkgs.fetchFromGitHub {
     owner = "gvnkd";
     repo = "idris2-fmt";
-    rev = "72091c8c35aae646eb41a0664e3080fb5c645615";
-    hash = "sha256-l/I27ZV20LZNzgu/upQfUuckI74K4wK9hex4/N2cEsk=";
+    rev = "08f8904884fea35acd1f88b91f849d4c442035ba";
+    hash = "sha256-GLyPnQzNpq2476QnVG9bmETT++2ibOa/VqMBF4eO/iQ=";
   };
 
   optparse-src = pkgs.fetchFromGitHub {
