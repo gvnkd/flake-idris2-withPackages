@@ -6,8 +6,8 @@ let
   fmt-src = pkgs.fetchFromGitHub {
     owner = "gvnkd";
     repo = "idris2-fmt";
-    rev = "v0.11.0";
-    hash = "sha256-UnJSYFJRvadQHoTjarJuKBEjtERuT8NtdnQ8ozbWbOA=";
+    rev = "v0.11.1";
+    hash = "sha256-esPK/euCF94uquDsTicpXsl5E1812o8qdnjl4N760NY=";
   };
 
   optparse-src = pkgs.fetchFromGitHub {
@@ -31,17 +31,6 @@ in
     ipkg = "idris2-fmt.ipkg";
     src = fmt-src;
     deps = [ "prettier" "idris2" "optparse-applicative" ];
-    postPatch = ''
-      # Upstream forgot to include Version.idr in v0.11.0 release
-      mkdir -p src/IdrisFmt
-      cat > src/IdrisFmt/Version.idr << 'EOF'
-      module IdrisFmt.Version
-
-      export
-      versionString : String
-      versionString = "0.11.0"
-      EOF
-    '';
   };
 
   # Applicative CLI option parser library
