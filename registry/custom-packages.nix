@@ -33,7 +33,7 @@ in
     deps = [ "prettier" "idris2" "optparse-applicative" ];
     postPatch = ''
       # Version is auto-generated from git tags but fetchFromGitHub strips git metadata
-      sed -i 's/versionString = "unknown"/versionString = "0.11.2"/' src/IdrisFmt/Version.idr
+      sed -i 's/versionString = "v0.11.1"/versionString = "0.11.2"/' src/IdrisFmt/Version.idr
     '';
   };
 
