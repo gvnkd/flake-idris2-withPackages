@@ -6,8 +6,8 @@ let
   fmt-src = pkgs.fetchFromGitHub {
     owner = "gvnkd";
     repo = "idris2-fmt";
-    rev = "v0.11.4";
-    hash = "sha256-yftVxCiB57J0CXjhMyKdc5MpqEA6AmyynKO9PQbtJ7M=";
+    rev = "v0.11.5";
+    hash = "sha256-aHAj+/e6MxHkIdR2626GlWbuGgR99u3dlk7DN54sGYI=";
   };
 
   optparse-src = pkgs.fetchFromGitHub {
@@ -33,7 +33,7 @@ in
     deps = [ "prettier" "idris2" "optparse-applicative" ];
     postPatch = ''
       # Version is auto-generated from git tags but fetchFromGitHub strips git metadata
-      sed -i 's/versionString = ".*"/versionString = "0.11.4"/' src/IdrisFmt/Version.idr
+      sed -i 's/versionString = ".*"/versionString = "0.11.5"/' src/IdrisFmt/Version.idr
     '';
   };
 
