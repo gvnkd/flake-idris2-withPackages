@@ -63,5 +63,9 @@ in
     ipkg = "taiga-cli.ipkg";
     src = taiga-cli-src;
     deps = [ "json" "elab-util" "sop" "contrib" "tls" "optparse-applicative" ];
+    postPatch = ''
+      # Upstream forgot to bump version string in source
+      sed -i 's/taiga-cli version 0\.1\.0/taiga-cli version 0.1.2/' src/Main.idr
+    '';
   };
 }
