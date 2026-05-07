@@ -20,8 +20,8 @@ let
   taiga-cli-src = pkgs.fetchFromGitHub {
     owner = "gvnkd";
     repo = "idris2-taiga-cli";
-    rev = "master";
-    hash = "sha256-PDiQQ4FvoaFTx7qowjYCx0kTN5aU6NIw9GUAtEViGF0=";
+    rev = "v0.1.2";
+    hash = "sha256-NDsqIsvuCkdjbCYeG/XmByXnT4DL4jK3Z0uNCrlIUrk=";
   };
 in
 {
