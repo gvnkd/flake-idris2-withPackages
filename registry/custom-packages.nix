@@ -23,6 +23,13 @@ let
     rev = "v0.1.2";
     hash = "sha256-NDsqIsvuCkdjbCYeG/XmByXnT4DL4jK3Z0uNCrlIUrk=";
   };
+
+  tui-src = pkgs.fetchFromGitHub {
+    owner = "emdash";
+    repo = "idris2-tui";
+    rev = "master";
+    hash = "sha256-0heskQVWNyOS7eUJIZHUjjrdPByTslQ1gknTDbAXP6k=";
+  };
 in
 {
   # Source code formatter for Idris 2
@@ -67,5 +74,21 @@ in
       # Upstream forgot to bump version string in source
       sed -i 's/taiga-cli version 0\.1\.0/taiga-cli version 0.1.2/' src/Main.idr
     '';
+  };
+
+  # Terminal UI library for Idris 2
+  tui = buildIdrisWithDocs {
+    pname = "tui";
+    ipkg = "tui.ipkg";
+    src = tui-src;
+    deps = [ "ansi" "json" "elab-util" "quantifiers-extra" ];
+  };
+
+  # Async extension for idris2-tui
+  tui-async = buildIdrisWithDocs {
+    pname = "tui-async";
+    ipkg = "tui-async/tui-async.ipkg";
+    src = tui-src;
+    deps = [ "tui" "posix" "async" "async-epoll" ];
   };
 }
