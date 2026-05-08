@@ -96,7 +96,32 @@ in
   pname = pname;
   # Expose the executable derivation (will only build successfully if the
   # ipkg defines a `main` / `executable`)
-  executable = basePkg.executable;
+  executable = (basePkg.executable).overrideAttrs (old: {
+    postFixup = ''
+      ${old.postFixup or ""}
+      # Nixpkgs buildIdris strips .so extensions when installing FFI shared
+      # libraries to $out/bin/. Chez Scheme's dlopen expects .so suffix, so
+      # we create symlinks in $out/lib/ and add it to LD_LIBRARY_PATH.
+      mkdir -p $out/lib
+      # Symlink wrapped binaries (actual shared objects) back to .so files
+      for wrapped in $out/bin/.*-wrapped; do
+        if [ -f "$wrapped" ] && [ -x "$wrapped" ]; then
+          base=$(basename "$wrapped")
+          # Strip leading . and trailing -wrapped
+          name="''${base#.}"
+          name="''${name%-wrapped}"
+          ln -sf "$wrapped" "$out/lib/$name.so"
+        fi
+      done
+      # Add $out/lib and dependency lib dirs to LD_LIBRARY_PATH
+      for prog in $out/bin/*; do
+        if [ -f "$prog" ] && [ -x "$prog" ] && [ ! -L "$prog" ]; then
+          wrapProgram "$prog" \
+            --prefix LD_LIBRARY_PATH ':' "$out/lib:${libDirs}"
+        fi
+      done
+    '';
+  });
 
   docs = pkgs.stdenv.mkDerivation (docPatchAttrs // {
     name = "${pname}-docs";

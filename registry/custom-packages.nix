@@ -35,7 +35,7 @@ let
     owner = "gvnkd";
     repo = "idris2-amon";
     rev = "master";
-    hash = "sha256-DKrKfxG976UMIHJ5JllRi8IHYg/cQXBA8gYu/2SErvQ=";
+    hash = "sha256-kFRTJxsLPuMtuLn6WXEezzm4cRSk/ZMjOpjOAgi4FgE=";
   };
 in
 {
