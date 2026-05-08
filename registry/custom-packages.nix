@@ -30,6 +30,13 @@ let
     rev = "master";
     hash = "sha256-0heskQVWNyOS7eUJIZHUjjrdPByTslQ1gknTDbAXP6k=";
   };
+
+  amon-src = pkgs.fetchFromGitHub {
+    owner = "gvnkd";
+    repo = "idris2-amon";
+    rev = "master";
+    hash = "sha256-DKrKfxG976UMIHJ5JllRi8IHYg/cQXBA8gYu/2SErvQ=";
+  };
 in
 {
   # Source code formatter for Idris 2
@@ -90,5 +97,13 @@ in
     ipkg = "tui-async/tui-async.ipkg";
     src = tui-src;
     deps = [ "tui" "posix" "async" "async-epoll" ];
+  };
+
+  # Process monitor TUI (depends on tui-async)
+  amon = buildIdrisWithDocs {
+    pname = "amon";
+    ipkg = "amon.ipkg";
+    src = amon-src;
+    deps = [ "json" "elab-util" "ansi" "tui" "tui-async" "posix" "streams" "streams-posix" ];
   };
 }

@@ -355,6 +355,7 @@
           fmt = registryPkgs.fmt.executable;
           taiga-cli = registryPkgs.taiga-cli.executable;
           optparse-applicative-example = registryPkgs.optparse-applicative-example.executable;
+          amon = registryPkgs.amon.executable;
         };
 
         lib = {
