@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-mtl-tuple-impls";
-    rev = "master";
-    hash = "sha256-C7jHrqI47Ie2zXiNGI0shRDUgsJRr+COI8fmfvIRGtA=";  # hash-updated: 2026-05-02 03:09:20
+    rev = "f25d3f8aba26da82be089f8c0e9f1865b31b28e8";
+    hash = "sha256-C7jHrqI47Ie2zXiNGI0shRDUgsJRr+COI8fmfvIRGtA=";  # hash-updated: 2026-06-19 16:28:58;  # hash-updated: 2026-05-02 03:09:20
   };
   deps = [ ];
 }

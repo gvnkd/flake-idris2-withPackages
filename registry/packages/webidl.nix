@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-webidl";
-    rev = "main";
-    hash = "sha256-IWi36o1J9QdHvSqazg3KGgL960xg6nRbo8CdsWOJfec=";  # hash-updated: 2026-05-02 03:10:16
+    rev = "eaf66e8247dac112fd535cb3371a300d5a220fd7";
+    hash = "sha256-IWi36o1J9QdHvSqazg3KGgL960xg6nRbo8CdsWOJfec=";  # hash-updated: 2026-06-19 16:30:15;  # hash-updated: 2026-05-02 03:10:16
   };
   deps = [ "getopts" "parser-webidl" "prettier" ];
 }

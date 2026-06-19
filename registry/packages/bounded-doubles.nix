@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-bounded-doubles";
-    rev = "master";
-    hash = "sha256-D8R48MVrUu88JMSfOIEdxOWQR1XgXeqTImYBsRd0zlg=";  # hash-updated: 2026-05-02 03:07:44
+    rev = "078934f6ba4bf69284c9cbc365840e645e71f22d";
+    hash = "sha256-D8R48MVrUu88JMSfOIEdxOWQR1XgXeqTImYBsRd0zlg=";  # hash-updated: 2026-06-19 16:27:23;  # hash-updated: 2026-05-02 03:07:44
   };
 in
 {

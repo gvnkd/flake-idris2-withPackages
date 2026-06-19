@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "idris-community";
     repo = "katla";
-    rev = "main";
-    hash = "sha256-+7EMUS2RiuAwb+TGH1FCssV89Ib6ZI1LRIKCK916im8=";  # hash-updated: 2026-05-02 03:09:10
+    rev = "b28e5be98819e0516cc799bf57de1d6f56f70034";
+    hash = "sha256-+7EMUS2RiuAwb+TGH1FCssV89Ib6ZI1LRIKCK916im8=";  # hash-updated: 2026-06-19 16:28:43;  # hash-updated: 2026-05-02 03:09:10
   };
 in
 {

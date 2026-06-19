@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "deptycheck";
-    rev = "master";
-    hash = "sha256-hk97E/TwNRNWA6MHV/GBnOqwiWVwupJF0pMgVT0mvh4=";  # hash-updated: 2026-05-02 03:08:02
+    rev = "660a23e6da286359af6edad09b5d441a39a4f8c5";
+    hash = "sha256-5fN0UcMsXgV0IjitGlI5CXc9vcBmRTmN0YH/ZnNajik=";  # hash-updated: 2026-06-19 16:27:50;  # hash-updated: 2026-05-02 03:08:02
   };
 in
 {

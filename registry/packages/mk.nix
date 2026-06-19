@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-mk";
-    rev = "master";
-    hash = "sha256-GwgdbLc6+iPjU4T7h8/SJIaNoEq7fQQK1wrs1xv53sY=";  # hash-updated: 2026-05-02 03:09:17
+    rev = "0df0651b12ecc574d5083a361333f80aaaa912ad";
+    hash = "sha256-GwgdbLc6+iPjU4T7h8/SJIaNoEq7fQQK1wrs1xv53sY=";  # hash-updated: 2026-06-19 16:28:54;  # hash-updated: 2026-05-02 03:09:17
   };
   deps = [ ];
 }

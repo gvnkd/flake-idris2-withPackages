@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-typelevel-emptiness-collections";
-    rev = "master";
-    hash = "sha256-3f2rZxxkki7GYAnQuAFNTww18v/bgWlwbPbJHlD7mI0=";  # hash-updated: 2026-05-02 03:10:08
+    rev = "bfb00b9ee20abbeea0254fc93ca51765fb2ec851";
+    hash = "sha256-3f2rZxxkki7GYAnQuAFNTww18v/bgWlwbPbJHlD7mI0=";  # hash-updated: 2026-06-19 16:30:05;  # hash-updated: 2026-05-02 03:10:08
   };
   deps = [ "if-unsolved-implicit" ];
 }

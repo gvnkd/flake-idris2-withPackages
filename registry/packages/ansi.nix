@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "idris-community";
     repo = "idris2-ansi";
-    rev = "main";
-    hash = "sha256-4aD8bNxw6SEEjowAYbRUWdv8d8Uql463rBL8GW8YJvU=";  # hash-updated: 2026-05-02 03:07:37
+    rev = "90f80ac513572877a3de818b43f837fa59265fec";
+    hash = "sha256-4aD8bNxw6SEEjowAYbRUWdv8d8Uql463rBL8GW8YJvU=";  # hash-updated: 2026-06-19 16:27:09;  # hash-updated: 2026-05-02 03:07:37
   };
 in
 {

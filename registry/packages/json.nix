@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-json";
-    rev = "main";
-    hash = "sha256-w/o7U/+ydW/2xGhg9NksOkpzB8I7F8h8pwTwh5wlGoQ=";  # hash-updated: 2026-05-02 03:09:08
+    rev = "b15189c7198143e1357802ce8748dc1ab544da76";
+    hash = "sha256-w/o7U/+ydW/2xGhg9NksOkpzB8I7F8h8pwTwh5wlGoQ=";  # hash-updated: 2026-06-19 16:28:41;  # hash-updated: 2026-05-02 03:09:08
   };
 in
 {

@@ -10,8 +10,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-summary-stat";
-    rev = "master";
-    hash = "sha256-WbY7CAVyqQDIsnwS5KPJg9xhjBfYrc5l+/gOFXPle9w=";  # hash-updated: 2026-05-02 03:09:57
+    rev = "041ceabb30deff4eb67eb98256e24173b9b8f111";
+    hash = "sha256-WbY7CAVyqQDIsnwS5KPJg9xhjBfYrc5l+/gOFXPle9w=";  # hash-updated: 2026-06-19 16:29:49;  # hash-updated: 2026-05-02 03:09:57
   };
   deps = [ "bounded-doubles" "weaker-traversals" ];
 }

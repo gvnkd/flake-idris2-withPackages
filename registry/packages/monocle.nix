@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-monocle";
-    rev = "main";
-    hash = "sha256-cxDCyaROw4xhvmC3kgZl4RQdFaA8+RcwUwVCMAsFRf8=";  # hash-updated: 2026-05-02 03:09:19
+    rev = "dfadd93fb1769e7f554262a23b399d0f0886bcc4";
+    hash = "sha256-cxDCyaROw4xhvmC3kgZl4RQdFaA8+RcwUwVCMAsFRf8=";  # hash-updated: 2026-06-19 16:28:57;  # hash-updated: 2026-05-02 03:09:19
   };
   deps = [ "elab-util" "quantifiers-extra" ];
 }

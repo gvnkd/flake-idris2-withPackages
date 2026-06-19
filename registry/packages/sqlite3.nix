@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-sqlite3";
-    rev = "main";
-    hash = "sha256-EIQjpthHOLoa2nTsqF1OYpdhMehBfI3SB6LD2oMXVXk=";  # hash-updated: 2026-05-02 03:09:52
+    rev = "9241b497a01c477c3a4014b9487dee300d83fe77";
+    hash = "sha256-EIQjpthHOLoa2nTsqF1OYpdhMehBfI3SB6LD2oMXVXk=";  # hash-updated: 2026-06-19 16:29:43;  # hash-updated: 2026-05-02 03:09:52
   };
 in
 {

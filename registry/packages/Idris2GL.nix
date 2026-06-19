@@ -10,8 +10,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "ECburx";
     repo = "Idris2GL";
-    rev = "main";
-    hash = "sha256-N5xrWhDBNJMb7jOjuz5qaqqYgGPYn21I0ERtuZpc3Wo=";  # hash-updated: 2026-05-02 03:09:02
+    rev = "44da0855bc8b2cfdf796ba9557e8c500395a8c41";
+    hash = "sha256-N5xrWhDBNJMb7jOjuz5qaqqYgGPYn21I0ERtuZpc3Wo=";  # hash-updated: 2026-06-19 16:27:01;  # hash-updated: 2026-05-02 03:09:02
   };
   deps = [ ];
   cDeps = [ pkgs.SDL2 pkgs.SDL2_image pkgs.SDL2_ttf pkgs.SDL2_gfx pkgs.SDL2_mixer ];

@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-dom-mvc";
-    rev = "main";
-    hash = "sha256-WKlnvu/Y0vt5wdGZKMdSZLyr+33Ueo8n2j7nSir5w7g=";  # hash-updated: 2026-05-02 03:08:06
+    rev = "de2c2b37e06410c48388ef629c07c6b26fe64b34";
+    hash = "sha256-WKlnvu/Y0vt5wdGZKMdSZLyr+33Ueo8n2j7nSir5w7g=";  # hash-updated: 2026-06-19 16:27:56;  # hash-updated: 2026-05-02 03:08:06
   };
 in
 {

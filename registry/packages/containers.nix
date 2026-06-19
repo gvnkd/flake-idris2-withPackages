@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "idris-community";
     repo = "idris2-containers";
-    rev = "main";
-    hash = "sha256-VTK8cWu3NflQ1E9jSSjeP6MbG+sx0HouBPBIE6c2U/k=";  # hash-updated: 2026-05-02 03:07:51
+    rev = "cd7208400beb9346ee186c10c75b359fc6f11b66";
+    hash = "sha256-mFS8N3+AqhYb4chgLIv4Dr+dILoysc6gUeiP2u6fnGI=";  # hash-updated: 2026-06-19 16:27:34;  # hash-updated: 2026-05-02 03:07:51
   };
   deps = [ "array" "elab-util" "hashable" "ref1" ];
 }

@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "idris-community";
     repo = "idris2-tls";
-    rev = "master";
-    hash = "sha256-ZgU+TjdySIFse+MYFHzTSI5SjoJR5y8RDerltb4rRiE=";  # hash-updated: 2026-05-02 03:10:05
+    rev = "29e9ccb1510a8e26c6434712f55daf240a627feb";
+    hash = "sha256-ZgU+TjdySIFse+MYFHzTSI5SjoJR5y8RDerltb4rRiE=";  # hash-updated: 2026-06-19 16:30:02;  # hash-updated: 2026-05-02 03:10:05
   };
   deps = [ "elab-util" "sop" ];
 }

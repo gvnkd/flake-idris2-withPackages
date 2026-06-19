@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "bio-aeon";
     repo = "log4types";
-    rev = "main";
-    hash = "sha256-QZrv+/jm8odiayZlBhYsQh3Fj9IV8WdIX28kadQpa1M=";  # hash-updated: 2026-05-02 03:09:13
+    rev = "217515f534bc1cb4b2dbfa4ed7f245c1fd376694";
+    hash = "sha256-QZrv+/jm8odiayZlBhYsQh3Fj9IV8WdIX28kadQpa1M=";  # hash-updated: 2026-06-19 16:28:50;  # hash-updated: 2026-05-02 03:09:13
   };
 in
 {

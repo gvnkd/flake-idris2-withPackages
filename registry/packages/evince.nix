@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "bio-aeon";
     repo = "evince";
-    rev = "main";
-    hash = "sha256-lHUha/vGaRO9G0Xo4qLzVhBGsRzY4v8UoHs44Ijg/5E=";  # hash-updated: 2026-05-02 03:08:13
+    rev = "d6d2311e9ed95a140608e3a67fbfe8652e383389";
+    hash = "sha256-yztyJjQzphsWre3zbNUdFhY7C86KtE7LOn7g03/uMII=";  # hash-updated: 2026-06-19 16:28:07;  # hash-updated: 2026-05-02 03:08:13
   };
 in
 {

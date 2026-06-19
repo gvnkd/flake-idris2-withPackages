@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-cozippable";
-    rev = "master";
-    hash = "sha256-lC3f8LUk0zopSTBmeyfNWDN3oI3cQ95yyh24uvM4tAo=";  # hash-updated: 2026-05-02 03:07:54
+    rev = "157960afd73f8f30a9521f936945991dd8369a35";
+    hash = "sha256-lC3f8LUk0zopSTBmeyfNWDN3oI3cQ95yyh24uvM4tAo=";  # hash-updated: 2026-06-19 16:27:38;  # hash-updated: 2026-05-02 03:07:54
   };
   deps = [ ];
 }

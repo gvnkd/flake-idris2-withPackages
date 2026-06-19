@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-cyby-draw";
-    rev = "main";
-    hash = "sha256-/j29XRYItMK1E7tEQNsw9uZiP9qAmkGi9bEo24ofTbk=";  # hash-updated: 2026-05-02 03:07:57
+    rev = "297afb87cf5530391605b855440d2275951b1164";
+    hash = "sha256-dHcEwvA/czL33Kxo1YhmPS49QVSXUIHfHQAGI8vdm/c=";  # hash-updated: 2026-06-19 16:27:44;  # hash-updated: 2026-05-02 03:07:57
   };
 in
 {

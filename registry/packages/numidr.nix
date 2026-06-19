@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "kiana-S";
     repo = "numidr";
-    rev = "main";
-    hash = "sha256-YDQ7ODnZrmBq/G4BKYIO5RgJEdS8WZV2QxFV4JUx7Mw=";  # hash-updated: 2026-05-02 03:09:24
+    rev = "bd1eee136662ef638628bca9907ae64f1b7538f9";
+    hash = "sha256-YDQ7ODnZrmBq/G4BKYIO5RgJEdS8WZV2QxFV4JUx7Mw=";  # hash-updated: 2026-06-19 16:29:04;  # hash-updated: 2026-05-02 03:09:24
   };
   deps = [ ];
 }

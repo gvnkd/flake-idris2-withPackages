@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-dependent-vect";
-    rev = "master";
-    hash = "sha256-O0r4CyWggt0lnPYaMCyznEs6I+0U7SMrzWYdp4EupSg=";  # hash-updated: 2026-05-02 03:08:00
+    rev = "bd955c80acb46f9ed92101d7bd6c9090d2d7041d";
+    hash = "sha256-O0r4CyWggt0lnPYaMCyznEs6I+0U7SMrzWYdp4EupSg=";  # hash-updated: 2026-06-19 16:27:48;  # hash-updated: 2026-05-02 03:08:00
   };
   deps = [ "fin-lizzie" ];
 }

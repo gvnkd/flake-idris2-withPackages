@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "idris-community";
     repo = "idris2-scgi";
-    rev = "main";
-    hash = "sha256-jPpgorj2NA/63t3hHRAkz7DeZvFdeofGUrGwGei8mqs=";  # hash-updated: 2026-05-02 03:09:50
+    rev = "7551730d60a37b67cd1e7a9557bb588dfc168545";
+    hash = "sha256-Tnv7EFafZuBEYrf1yimWTHFWjIeBcqg1511echMIwQ4=";  # hash-updated: 2026-06-19 16:29:40;  # hash-updated: 2026-05-02 03:09:50
   };
   deps = [ "ansi" "async-epoll" "http-server-api" ];
 }

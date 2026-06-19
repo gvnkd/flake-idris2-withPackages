@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-elab-util";
-    rev = "main";
-    hash = "sha256-gCEJ+tpzM/i2rKABCsyYa3WBb089regWgM84XCSfUiw=";  # hash-updated: 2026-05-02 03:08:11
+    rev = "90a2363256cbaafd3b0cc4e2bf36003761b6c4f0";
+    hash = "sha256-gCEJ+tpzM/i2rKABCsyYa3WBb089regWgM84XCSfUiw=";  # hash-updated: 2026-06-19 16:28:03;  # hash-updated: 2026-05-02 03:08:11
   };
 in
 {

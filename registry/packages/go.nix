@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "kbertalan";
     repo = "idris2-go";
-    rev = "main";
-    hash = "sha256-JxUClhZyf1L6xBWfgW/8UxXFTXRUCbYkDkvCYn6EVAs=";  # hash-updated: 2026-05-02 03:08:23
+    rev = "070087e7f216bd651df6f4491f71a6d812631dd7";
+    hash = "sha256-JxUClhZyf1L6xBWfgW/8UxXFTXRUCbYkDkvCYn6EVAs=";  # hash-updated: 2026-06-19 16:28:21;  # hash-updated: 2026-05-02 03:08:23
   };
 in
 {

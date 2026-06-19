@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "buzden";
     repo = "idris2-golden-runner-helper";
-    rev = "master";
-    hash = "sha256-B0T+zOANqKVtrdoeOSZo6cMrA7DId7CrCMqLDy2etm4=";  # hash-updated: 2026-05-02 03:08:22
+    rev = "7178ee86f2dde575e2c2bfb2ed4a69a1724eefa2";
+    hash = "sha256-B0T+zOANqKVtrdoeOSZo6cMrA7DId7CrCMqLDy2etm4=";  # hash-updated: 2026-06-19 16:28:22;  # hash-updated: 2026-05-02 03:08:22
   };
   deps = [ ];
 }

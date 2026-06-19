@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "kbertalan";
     repo = "tyttp";
-    rev = "main";
-    hash = "sha256-G2liKyLsI61coGkCAxASWpe5PDanrXrYwdUAjXgIvWA=";  # hash-updated: 2026-05-02 03:10:11
+    rev = "8af0a3d6f37191dd36cc7f30a82af28bbcd82a9e";
+    hash = "sha256-G2liKyLsI61coGkCAxASWpe5PDanrXrYwdUAjXgIvWA=";  # hash-updated: 2026-06-19 16:30:07;  # hash-updated: 2026-05-02 03:10:11
   };
 in
 {

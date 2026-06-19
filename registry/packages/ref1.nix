@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "stefan-hoeck";
     repo = "idris2-ref1";
-    rev = "main";
-    hash = "sha256-YS/JV/c3Ai5kU1Y1jfJYPzbF2W3o0YysdafC8+Xp4Bw=";  # hash-updated: 2026-05-02 03:09:42
+    rev = "f7a20a9e41aba4026b50edddd689fc394d354b97";
+    hash = "sha256-BlOv+kvMvtETi6cWSOwT+cvs0bYkQq72HeKA+OCRrlI=";  # hash-updated: 2026-06-19 16:29:30;  # hash-updated: 2026-05-02 03:09:42
   };
   deps = [ ];
 }

@@ -9,8 +9,8 @@ buildIdrisWithDocs {
   src = pkgs.fetchFromGitHub {
     owner = "idris-community";
     repo = "lsp-lib";
-    rev = "main";
-    hash = "sha256-maXHx/OrflIdV7XPfDCRShUGZekLbLOSFQPHnL6DxnI=";  # hash-updated: 2026-05-02 03:09:15
+    rev = "ca77e80a392b8cfeee3aaeb150069957699cdb82";
+    hash = "sha256-maXHx/OrflIdV7XPfDCRShUGZekLbLOSFQPHnL6DxnI=";  # hash-updated: 2026-06-19 16:28:51;  # hash-updated: 2026-05-02 03:09:15
   };
   deps = [ ];
 }
